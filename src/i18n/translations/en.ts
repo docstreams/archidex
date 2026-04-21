@@ -2,14 +2,14 @@ import type { TranslationSchema } from "./uk";
 
 export const en: TranslationSchema = {
   meta: {
-    siteTitle: "DocBuddy — answers from your own documents",
+    siteTitle: "Archidex — answers from your own documents",
     defaultDescription:
       "Enterprise AI search for Ukrainian teams. Upload your documents, ask questions — get answers with a citation and link to the source.",
     ogImageAlt:
-      "DocBuddy — Dex the mascot helping to find an answer inside corporate documents",
+      "Archidex — Dex the mascot helping to find an answer inside corporate documents",
   },
   header: {
-    brand: "DocBuddy",
+    brand: "Archidex",
     apply: "Apply",
     switchToUk: "UA",
     switchToEn: "EN",
@@ -18,7 +18,7 @@ export const en: TranslationSchema = {
     kicker: "For teams working with large document volumes",
     headline: "Smart search across corporate documents",
     subhead:
-      "Find the right information across archives, folders, and documents accumulated over years of company work. DocBuddy answers from your own files and shows the source.",
+      "Find the right information across archives, folders, and documents accumulated over years of company work. Archidex answers from your own files and shows the source.",
     cta: "Apply for beta access",
     proofLabel: "Key benefits",
     proofPoints: [
@@ -54,7 +54,7 @@ export const en: TranslationSchema = {
     sourceLabel: "Source",
     sourceText: "Contract No. 2026-014 with Viter LLC · p. 3",
     mascotAlt:
-      "Dex, DocBuddy's purple octopus mascot, next to a company document archive",
+      "Dex, Archidex's purple octopus mascot, next to a company document archive",
   },
   problem: {
     heading: "Sound familiar?",
@@ -77,14 +77,14 @@ export const en: TranslationSchema = {
       },
       {
         title: "Verify every answer",
-        body: "DocBuddy shows the source document, page, and exact passage so the answer can be checked immediately.",
+        body: "Archidex shows the source document, page, and exact passage so the answer can be checked immediately.",
       },
     ],
   },
   productMock: {
     heading: "What a verified answer looks like",
     subhead:
-      "DocBuddy does not just answer. It shows the exact passage, the source document, and additional matches in the archive. No generalities from the internet — only your data.",
+      "Archidex does not just answer. It shows the exact passage, the source document, and additional matches in the archive. No generalities from the internet — only your data.",
     question:
       "What are the conditions for early termination of the contract with «Viter»?",
     resultLabel: "Selected answer",
@@ -119,7 +119,7 @@ export const en: TranslationSchema = {
   security: {
     heading: "Access control and clear rules for working with data",
     subhead:
-      "DocBuddy is built for companies that need answer verification, access auditability, and control over internal knowledge.",
+      "Archidex is built for companies that need answer verification, access auditability, and control over internal knowledge.",
     promises: [
       {
         title: "We do not use your data to train models",
@@ -162,8 +162,8 @@ export const en: TranslationSchema = {
     ],
   },
   allmatics: {
-    heading: "DocBuddy is built by Allmatics",
-    body: "We build products at the intersection of documents and AI. DocStreams.ai — our earlier document automation product — means DocBuddy comes from real work with enterprise documents, not from AI hype alone.",
+    heading: "Archidex is built by Allmatics",
+    body: "We build products at the intersection of documents and AI. DocStreams.ai — our earlier document automation product — means Archidex comes from real work with enterprise documents, not from AI hype alone.",
     linkLabel: "allmatics.com",
     linkHref: "https://allmatics.com",
   },
@@ -195,7 +195,7 @@ export const en: TranslationSchema = {
         a: "PDF, DOCX, TXT, and most common office formats. The full list is clarified during onboarding.",
       },
       {
-        q: "How much does DocBuddy cost?",
+        q: "How much does Archidex cost?",
         a: "The beta is free for participants. Commercial plans will be announced after general availability.",
       },
     ],
@@ -204,7 +204,7 @@ export const en: TranslationSchema = {
     heading: "Apply for beta access",
     subhead:
       "Apply if you want to join the first wave of teams and influence the product before public launch.",
-    fitLabel: "DocBuddy is opening access for teams that care about",
+    fitLabel: "Archidex is opening access for teams that care about",
     fitItems: [
       "answers with source references rather than generic AI output",
       "access control for internal knowledge and clear rules for handling data",
@@ -249,7 +249,7 @@ export const en: TranslationSchema = {
   },
   footer: {
     tagline: "Enterprise AI search for Ukrainian teams.",
-    copyright: "DocBuddy by",
+    copyright: "Archidex by",
     allmatics: "Allmatics",
     privacy: "Privacy policy",
     terms: "Terms of use",
