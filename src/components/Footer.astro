@@ -1,0 +1,32 @@
+---
+import { getLocale, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale).footer;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-line/70 border-t px-5 py-10 sm:px-8 lg:px-12">
+  <div
+    class="text-ink-muted mx-auto flex max-w-7xl flex-col items-start gap-6 text-sm sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="flex flex-col gap-1">
+      <p class="text-ink font-display text-base font-semibold">DocBuddy</p>
+      <p class="text-ink-muted">{strings.tagline}</p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <a
+        href={`mailto:${strings.contact}`}
+        class="hover:text-ink transition-colors"
+      >
+        {strings.contact}
+      </a>
+      <a href="https://allmatics.com" class="hover:text-ink transition-colors">
+        {strings.copyright}
+        {strings.allmatics}
+      </a>
+      <span class="text-ink-soft">© {year}</span>
+    </div>
+  </div>
+</footer>
