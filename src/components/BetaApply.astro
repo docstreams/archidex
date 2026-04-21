@@ -160,9 +160,20 @@ const strings = t(locale).betaApply;
         aria-hidden="true"
       >
         <img
-          src="/mascot/dex-success.webp"
+          data-mascot-idle
+          src="/mascot/dex-form.webp"
           alt={strings.mascotAlt}
           class="h-56 w-auto object-contain"
+          width="280"
+          height="280"
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          data-mascot-success
+          src="/mascot/dex-success.webp"
+          alt={strings.mascotAlt}
+          class="hidden h-56 w-auto object-contain"
           width="280"
           height="280"
           loading="lazy"
@@ -184,8 +195,13 @@ const strings = t(locale).betaApply;
     );
     const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
     const introEl = form.closest<HTMLElement>("[data-form-intro]");
+    const card = introEl?.parentElement?.parentElement;
     const successEl = introEl?.parentElement?.querySelector<HTMLElement>(
       "[data-form-success]",
+    );
+    const mascotIdle = card?.querySelector<HTMLElement>("[data-mascot-idle]");
+    const mascotSuccess = card?.querySelector<HTMLElement>(
+      "[data-mascot-success]",
     );
 
     const idleLabel = button?.dataset.labelIdle ?? "Submit";
@@ -241,6 +257,8 @@ const strings = t(locale).betaApply;
 
         introEl?.classList.add("hidden");
         successEl?.classList.remove("hidden");
+        mascotIdle?.classList.add("hidden");
+        mascotSuccess?.classList.remove("hidden");
       } catch {
         if (errorEl) errorEl.classList.remove("hidden");
         button.disabled = false;
