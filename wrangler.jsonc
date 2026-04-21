@@ -1,15 +1,18 @@
 {
-	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "docbuddy",
-	"compatibility_date": "2026-04-21",
-	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-	"main": "@astrojs/cloudflare/entrypoints/server",
-	"assets": {
-		"directory": "./dist",
-		"binding": "ASSETS"
-	},
-	"observability": {
-		"enabled": true
-	},
-	"preview_urls": true
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "docbuddy",
+  "compatibility_date": "2026-04-21",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "preview_urls": true,
+  "secrets": {
+    "required": ["NOTION_TOKEN", "NOTION_BETA_DB_ID"],
+  },
 }
