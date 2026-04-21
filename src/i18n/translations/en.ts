@@ -45,6 +45,9 @@ export const en: TranslationSchema = {
         badge: "548 files",
       },
     ],
+    questionLabel: "Question",
+    questionText:
+      "What are the terms for early termination of the contract with Viter?",
     answerLabel: "Dex found this for you",
     answerTitle: "Early termination terms in the contract",
     answerText:

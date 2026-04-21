@@ -130,6 +130,25 @@ const strings = t(locale).hero;
           </div>
 
           <div
+            class="paper-card relative self-end p-5 sm:mr-8 sm:max-w-sm sm:p-6"
+          >
+            <span
+              class="font-display text-accent bg-accent-soft flex h-10 w-10 items-center justify-center rounded-full text-lg font-semibold"
+              aria-hidden="true"
+            >
+              ?
+            </span>
+            <p
+              class="text-ink-soft mt-4 text-[0.68rem] font-medium tracking-[0.18em] uppercase sm:text-[0.72rem] sm:tracking-[0.2em]"
+            >
+              {strings.questionLabel}
+            </p>
+            <p class="text-ink mt-2 text-base font-semibold sm:text-lg">
+              {strings.questionText}
+            </p>
+          </div>
+
+          <div
             class="pointer-events-none hidden lg:flex lg:justify-end lg:pr-6 xl:pr-8"
           >
             <img

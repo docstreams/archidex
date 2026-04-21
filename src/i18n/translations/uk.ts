@@ -43,6 +43,9 @@ export const uk = {
         badge: "548 файлів",
       },
     ],
+    questionLabel: "Запит",
+    questionText:
+      "Які умови дострокового розірвання договору з клієнтом «Вітер»?",
     answerLabel: "Дексі знайшов для вас",
     answerTitle: "Умови дострокового розірвання договору",
     answerText:
