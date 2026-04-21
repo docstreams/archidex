@@ -203,28 +203,35 @@ export const en: TranslationSchema = {
   betaApply: {
     heading: "Apply for beta access",
     subhead:
-      "Tell us briefly about your company and the problem you want to solve. We get back within a few working days.",
+      "Tell us which documents your team searches most often and who would use DocBuddy. We review every application and reply within a few working days.",
+    fitLabel: "The beta is a strong fit if you care about",
+    fitItems: [
+      "answers with source references rather than generic AI output",
+      "access control for internal knowledge and clear rules for handling data",
+      "faster onboarding and less manual searching through folders, archives, and email threads",
+    ],
     labels: {
       name: "Your name",
       email: "Work email",
       company: "Company",
       role: "Role",
       size: "Team size",
-      useCase: "What problem are you trying to solve?",
+      useCase: "Which documents or processes do you need answers from?",
     },
     placeholders: {
       name: "Taras Shevchenko",
       email: "taras@company.com",
       company: "Kobzar LLC",
       role: "Head of Operations",
-      useCase: "Describe it in two sentences.",
+      useCase:
+        "For example: contracts, policies, onboarding, internal procedures.",
     },
     sizeOptions: ["1–10", "11–50", "51–200", "200+"],
     submit: "Send application",
     sending: "Sending…",
     success: {
       heading: "Thanks — application received",
-      body: "We'll get in touch soon.",
+      body: "We'll review your use case and get in touch soon.",
     },
     error:
       "We couldn't submit your application. Try again, or email us at hello@allmatics.com.",
