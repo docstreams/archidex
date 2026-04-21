@@ -1,0 +1,44 @@
+---
+import { getLocale, getAlternateHref, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale);
+const pathname = Astro.url.pathname;
+const altLocale: Locale = locale === "uk" ? "en" : "uk";
+const altHref = getAlternateHref(pathname, altLocale);
+const altLabel =
+  altLocale === "uk" ? strings.header.switchToUk : strings.header.switchToEn;
+---
+
+<header
+  class="border-line/60 bg-paper/90 sticky top-0 z-40 border-b backdrop-blur-md"
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12"
+  >
+    <a
+      href={locale === "uk" ? "/" : "/en/"}
+      class="font-display text-ink text-xl font-semibold tracking-tight"
+      aria-label={strings.header.brand}
+    >
+      {strings.header.brand}
+    </a>
+
+    <nav
+      class="flex items-center gap-2 sm:gap-4"
+      aria-label={strings.header.brand}
+    >
+      <a
+        href={altHref}
+        class="border-line text-ink-muted hover:border-ink/20 hover:text-ink rounded-full border px-3 py-1.5 text-sm font-medium transition-colors"
+        hreflang={altLocale}
+        aria-label={altLocale === "uk" ? "Українська" : "English"}
+      >
+        {altLabel}
+      </a>
+      <a href="#beta-apply" class="btn-primary text-sm sm:text-base">
+        {strings.header.apply}
+      </a>
+    </nav>
+  </div>
+</header>
