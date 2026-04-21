@@ -1,18 +1,59 @@
 ---
 import "../styles/global.css";
+import { getLocale, getAlternateHref, t, type Locale } from "../i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale);
+
+const pageTitle = title ?? strings.meta.siteTitle;
+const pageDescription = description ?? strings.meta.defaultDescription;
+
+const pathname = Astro.url.pathname;
+const canonicalUk = getAlternateHref(pathname, "uk");
+const canonicalEn = getAlternateHref(pathname, "en");
+
+const canonicalUrl = new URL(pathname, Astro.site ?? Astro.url);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale} dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#faf7f1" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+
+    <link rel="canonical" href={canonicalUrl.toString()} />
+    <link rel="alternate" hreflang="uk" href={canonicalUk} />
+    <link rel="alternate" hreflang="en" href={canonicalEn} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUk} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:locale" content={locale === "uk" ? "uk_UA" : "en_US"} />
+    <meta property="og:site_name" content="DocBuddy" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+
+    <meta name="robots" content="index, follow" />
   </head>
-  <body>
+  <body class="bg-paper text-ink antialiased">
     <slot />
   </body>
 </html>
