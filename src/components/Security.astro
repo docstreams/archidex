@@ -50,10 +50,22 @@ const strings = t(locale).security;
       }
     </ul>
 
-    <p
-      class="border-line text-ink-muted mt-10 rounded-full border bg-white/70 px-5 py-3 text-center text-sm sm:text-base"
-    >
-      {strings.technicalLine}
-    </p>
+    <div class="mt-10">
+      <p
+        class="text-ink-soft text-center text-[0.72rem] font-medium tracking-[0.22em] uppercase"
+      >
+        {strings.capabilitiesLabel}
+      </p>
+
+      <ul class="mt-4 flex flex-wrap justify-center gap-3">
+        {
+          strings.capabilities.map((item) => (
+            <li class="border-line text-ink rounded-full border bg-white/80 px-4 py-2 text-sm font-medium shadow-sm">
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </section>

@@ -117,24 +117,32 @@ export const en: TranslationSchema = {
     emptyStateAlt: "Dex working on a laptop, surrounded by documents",
   },
   security: {
-    heading: "Your data stays under your control",
-    subhead: "We build DocBuddy without compromising on trust.",
+    heading: "Access control and clear rules for working with data",
+    subhead:
+      "DocBuddy is built for companies that need answer verification, access auditability, and control over internal knowledge.",
     promises: [
       {
-        title: "We do not train models on your data",
-        body: "Your documents never enter any training set — ours or anyone else's.",
+        title: "We do not use your data to train models",
+        body: "Your documents never enter training datasets — ours or any model vendor's.",
       },
       {
-        title: "We do not sell or share your data",
-        body: "No transfers for advertising, analytics, or third-party products. Full stop.",
+        title: "We do not sell or share your data with third parties",
+        body: "Your documents are not used for advertising, analytics, or any unrelated third-party purpose.",
       },
       {
         title: "Access stays within your organisation",
-        body: "No one outside your tenant — Allmatics included — reads your documents without your request.",
+        body: "No one outside your tenant — Allmatics included — reads documents unless you request and approve a support scenario.",
       },
     ],
-    technicalLine:
-      "SAML · OAuth · LDAP · GDPR · full access logs · role-based permissions",
+    capabilitiesLabel: "Enterprise-ready",
+    capabilities: [
+      "SAML",
+      "OAuth",
+      "LDAP",
+      "GDPR",
+      "full access logs",
+      "role-based permissions",
+    ],
   },
   forWhom: {
     heading: "Who this is for",
