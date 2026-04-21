@@ -159,8 +159,8 @@ export const uk = {
     ],
   },
   allmatics: {
-    heading: "Команда, що зробила DocStreams.ai",
-    body: "DocBuddy розробляє Allmatics — українська студія, що спеціалізується на обробці документів і AI. DocStreams.ai — наш продукт для автоматизації документообігу у HR, Oil & Gas та інших індустріях.",
+    heading: "DocBuddy розробляє Allmatics",
+    body: "Ми будуємо продукти на перетині документів і AI. DocStreams.ai — наш попередній продукт для автоматизації документообігу, тому DocBuddy виріс не з моди на AI, а з реальної роботи з корпоративними документами.",
     linkLabel: "allmatics.com",
     linkHref: "https://allmatics.com",
   },

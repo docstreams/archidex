@@ -162,8 +162,8 @@ export const en: TranslationSchema = {
     ],
   },
   allmatics: {
-    heading: "Built by the team behind DocStreams.ai",
-    body: "DocBuddy is built by Allmatics — a Ukrainian studio specialising in documents and AI. DocStreams.ai is our product for automating document flows in HR, Oil & Gas, and other industries.",
+    heading: "DocBuddy is built by Allmatics",
+    body: "We build products at the intersection of documents and AI. DocStreams.ai — our earlier document automation product — means DocBuddy comes from real work with enterprise documents, not from AI hype alone.",
     linkLabel: "allmatics.com",
     linkHref: "https://allmatics.com",
   },
