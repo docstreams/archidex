@@ -33,7 +33,9 @@ const strings = t(locale).productMock;
         <span class="w-10"></span>
       </div>
 
-      <div class="grid gap-0 sm:grid-cols-[1fr_auto] sm:items-stretch">
+      <div
+        class="grid gap-0 lg:grid-cols-[minmax(0,1.15fr)_320px] lg:items-stretch"
+      >
         <div class="flex flex-col gap-5 p-6 sm:p-8">
           <div class="flex justify-end">
             <div
@@ -46,17 +48,34 @@ const strings = t(locale).productMock;
           </div>
 
           <div class="flex justify-start">
-            <div class="max-w-full sm:max-w-[90%]">
+            <div class="max-w-full lg:max-w-[92%]">
               <div
                 class="border-line rounded-2xl rounded-bl-md border bg-white px-5 py-4 shadow-sm"
               >
+                <p
+                  class="text-ink-soft text-[0.7rem] font-medium tracking-wide uppercase"
+                >
+                  {strings.resultLabel}
+                </p>
                 <p class="text-ink text-sm leading-relaxed sm:text-base">
                   {strings.answer}
                 </p>
 
-                <a
-                  href="#"
-                  class="bg-paper-shade/70 hover:bg-paper-shade focus-visible:ring-accent/30 mt-4 flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                <div
+                  class="border-line bg-paper mt-4 rounded-xl border px-4 py-3"
+                >
+                  <p
+                    class="text-ink-soft text-[0.7rem] font-medium tracking-wide uppercase"
+                  >
+                    {strings.excerptLabel}
+                  </p>
+                  <p class="text-ink mt-2 text-sm leading-relaxed sm:text-base">
+                    {strings.excerpt}
+                  </p>
+                </div>
+
+                <div
+                  class="bg-paper-shade/70 mt-4 flex items-start gap-3 rounded-xl px-3 py-2.5"
                   aria-label={`${strings.citationLabel}: ${strings.citationDoc}, ${strings.citationPage}`}
                 >
                   <span
@@ -89,25 +108,50 @@ const strings = t(locale).productMock;
                       {strings.citationPage}
                     </span>
                   </span>
-                </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <aside
-          class="border-line bg-paper-shade/40 hidden items-end justify-center border-l p-6 sm:flex"
-          aria-hidden="true"
+          class="border-line bg-paper-shade/40 flex flex-col border-t p-6 lg:border-t-0 lg:border-l"
         >
-          <img
-            src="/mascot/dex-working.webp"
-            alt={strings.emptyStateAlt}
-            class="h-44 w-auto object-contain"
-            width="220"
-            height="220"
-            loading="lazy"
-            decoding="async"
-          />
+          <p
+            class="text-ink-soft text-[0.72rem] font-medium tracking-[0.22em] uppercase"
+          >
+            {strings.matchesLabel}
+          </p>
+
+          <ul class="mt-4 flex flex-col gap-3">
+            {
+              strings.matches.map((match) => (
+                <li class="border-line rounded-2xl border bg-white/80 p-4 shadow-sm">
+                  <p class="text-ink text-sm font-semibold sm:text-base">
+                    {match.title}
+                  </p>
+                  <p class="text-ink-muted mt-1 text-sm leading-relaxed">
+                    {match.body}
+                  </p>
+                  <p class="text-ink-soft mt-2 text-xs font-medium">
+                    {match.page}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="mt-6 hidden justify-center lg:flex" aria-hidden="true">
+            <img
+              src="/mascot/dex-working.webp"
+              alt={strings.emptyStateAlt}
+              class="h-36 w-auto object-contain"
+              width="220"
+              height="220"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </aside>
       </div>
     </div>

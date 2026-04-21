@@ -82,16 +82,38 @@ export const en: TranslationSchema = {
     ],
   },
   productMock: {
-    heading: "What an answer looks like",
+    heading: "What a verified answer looks like",
     subhead:
-      "Every answer comes with a quote and a link to the page. No generalities from the internet — only your data.",
+      "DocBuddy does not just answer. It shows the exact passage, the source document, and additional matches in the archive. No generalities from the internet — only your data.",
     question:
       "What are the conditions for early termination of the contract with «Viter»?",
+    resultLabel: "Selected answer",
     answer:
       "The contract can be terminated with 30 days' notice without penalty. If we initiate termination, the remaining prepayment is refunded within 14 days.",
+    excerptLabel: "Exact passage",
+    excerpt:
+      '"Either party may terminate this agreement early by written notice no later than 30 calendar days in advance. If termination is initiated by the Provider, the remaining prepayment is refunded to the Client within 14 calendar days."',
     citationLabel: "Source",
     citationDoc: "Contract No. 2026-014 with Viter LLC",
     citationPage: "p. 3",
+    matchesLabel: "Also found in the archive",
+    matches: [
+      {
+        title: "Appendix No. 2 to Contract No. 2026-014",
+        body: "Covers the transfer of materials and the completion process after termination notice is submitted.",
+        page: "p. 1",
+      },
+      {
+        title: "Client contract operations policy",
+        body: "Explains how the team handles early contract termination and client refunds in practice.",
+        page: "p. 7",
+      },
+      {
+        title: "SMB client contract template",
+        body: "Includes the baseline clause about 30-day notice without penalty fees.",
+        page: "p. 4",
+      },
+    ],
     emptyStateAlt: "Dex working on a laptop, surrounded by documents",
   },
   security: {
