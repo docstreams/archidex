@@ -1,0 +1,77 @@
+---
+import { getLocale, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale).hero;
+---
+
+<section
+  class="relative overflow-hidden px-5 pt-10 pb-16 sm:px-8 sm:pt-16 sm:pb-24 lg:px-12"
+>
+  <div
+    class="from-paper-shade/60 via-paper to-paper pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] bg-gradient-to-b"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-16"
+  >
+    <div class="order-2 md:order-1">
+      <span
+        class="border-accent/20 bg-accent-soft text-accent inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium tracking-wide uppercase"
+      >
+        <span class="bg-accent inline-block h-1.5 w-1.5 rounded-full"></span>
+        {strings.kicker}
+      </span>
+
+      <h1
+        class="font-display text-ink mt-5 text-4xl leading-[1.1] font-semibold sm:text-5xl lg:text-6xl"
+      >
+        {strings.headline}
+      </h1>
+
+      <p class="text-ink-muted mt-6 max-w-2xl text-lg leading-relaxed">
+        {strings.subhead}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#beta-apply" class="btn-primary">
+          {strings.cta}
+          <svg
+            class="h-4 w-4"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 8h10m0 0L9 4m4 4l-4 4"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="order-1 md:order-2">
+      <div class="relative mx-auto aspect-square w-full max-w-md">
+        <div
+          class="from-accent-soft via-paper-shade/40 absolute -inset-6 -z-10 rounded-full bg-gradient-to-br to-transparent blur-2xl"
+          aria-hidden="true"
+        >
+        </div>
+        <img
+          src="/mascot/octik-hero.webp"
+          alt={strings.mascotAlt}
+          class="h-full w-full object-contain"
+          width="640"
+          height="640"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>
