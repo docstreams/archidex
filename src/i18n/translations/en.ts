@@ -203,13 +203,15 @@ export const en: TranslationSchema = {
   betaApply: {
     heading: "Apply for beta access",
     subhead:
-      "Tell us which documents your team searches most often and who would use DocBuddy. We review every application and reply within a few working days.",
-    fitLabel: "The beta is a strong fit if you care about",
+      "Apply if you want to join the first wave of teams and influence the product before public launch.",
+    fitLabel: "DocBuddy is opening access for teams that care about",
     fitItems: [
       "answers with source references rather than generic AI output",
       "access control for internal knowledge and clear rules for handling data",
       "faster onboarding and less manual searching through folders, archives, and email threads",
     ],
+    responseTime:
+      "We review every application and reply within a few working days.",
     labels: {
       name: "Your name",
       email: "Work email",
