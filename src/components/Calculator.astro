@@ -4,8 +4,8 @@ import { getLocale, t, type Locale } from "../i18n";
 const locale: Locale = getLocale(Astro.currentLocale);
 const strings = t(locale).calculator;
 
-const inputClass =
-  "border-line focus:border-accent text-ink rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none";
+const sliderClass =
+  "accent-accent h-2 w-full cursor-pointer appearance-none rounded-full bg-paper-shade focus:outline-none";
 ---
 
 <section
@@ -30,37 +30,54 @@ const inputClass =
       data-locale={locale}
     >
       <div class="p-7 sm:p-9">
-        <div class="flex flex-col gap-6">
-          <label class="flex flex-col gap-1.5 text-sm">
-            <span class="text-ink font-medium">
-              {strings.inputs.seatsLabel}
-            </span>
+        <div class="flex flex-col gap-7">
+          <label class="flex flex-col gap-2 text-sm">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="text-ink font-medium">
+                {strings.inputs.seatsLabel}
+              </span>
+              <span
+                data-calc-seats-display
+                class="font-display text-accent text-xl font-semibold tabular-nums"
+              >
+                5
+              </span>
+            </div>
             <input
-              type="number"
+              type="range"
               min="1"
-              max="200"
+              max="60"
               step="1"
               value="5"
               data-calc="seats"
-              class={inputClass}
+              class={sliderClass}
             />
             <span class="text-ink-soft text-xs">
               {strings.inputs.seatsHint}
             </span>
           </label>
 
-          <label class="flex flex-col gap-1.5 text-sm">
-            <span class="text-ink font-medium">
-              {strings.inputs.pagesLabel}
-            </span>
-            <select data-calc="pages" class={inputClass}>
-              <option value="1000">1 000</option>
-              <option value="2000">2 000</option>
-              <option value="3000">3 000</option>
-              <option value="5000">5 000</option>
-              <option value="10000">10 000</option>
-              <option value="20000">20 000+</option>
-            </select>
+          <label class="flex flex-col gap-2 text-sm">
+            <div class="flex items-baseline justify-between gap-4">
+              <span class="text-ink font-medium">
+                {strings.inputs.pagesLabel}
+              </span>
+              <span
+                data-calc-pages-display
+                class="font-display text-accent text-xl font-semibold tabular-nums"
+              >
+                1 000
+              </span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="5"
+              step="1"
+              value="0"
+              data-calc="pages"
+              class={sliderClass}
+            />
             <span class="text-ink-soft text-xs">
               {strings.inputs.pagesHint}
             </span>
@@ -180,11 +197,17 @@ const inputClass =
     const seatsEl = widget.querySelector<HTMLInputElement>(
       'input[data-calc="seats"]',
     );
-    const pagesEl = widget.querySelector<HTMLSelectElement>(
-      'select[data-calc="pages"]',
+    const pagesEl = widget.querySelector<HTMLInputElement>(
+      'input[data-calc="pages"]',
     );
     const addonEl = widget.querySelector<HTMLInputElement>(
       'input[data-calc="addon"]',
+    );
+    const seatsDisplayEl = widget.querySelector<HTMLElement>(
+      "[data-calc-seats-display]",
+    );
+    const pagesDisplayEl = widget.querySelector<HTMLElement>(
+      "[data-calc-pages-display]",
     );
     const planEl = widget.querySelector<HTMLElement>("[data-calc-plan]");
     const totalEl = widget.querySelector<HTMLElement>("[data-calc-total]");
@@ -198,6 +221,11 @@ const inputClass =
       "[data-output-enterprise]",
     );
 
+    const PAGES_VALUES = [1000, 2000, 3000, 5000, 10000, 20000];
+    const pageFormatter = new Intl.NumberFormat(
+      locale === "uk" ? "uk-UA" : "en-US",
+    );
+
     const PLAN_NAMES: Record<string, Record<string, string>> = {
       uk: { solo: "Соло", team: "Команда" },
       en: { solo: "Solo", team: "Team" },
@@ -209,7 +237,7 @@ const inputClass =
     > = {
       uk: {
         base: "Базова плата",
-        seats: "Додаткові місця",
+        seats: "Додаткові користувачі",
         addon: "Розширені запити",
         pages: "Додаткові сторінки",
       },
@@ -226,11 +254,11 @@ const inputClass =
 
     const BASIC_BASE = 8;
     const TEAM_BASE = 50;
-    const TEAM_SEATS_INCLUDED = 2;
+    const TEAM_SEATS_INCLUDED = 4;
     const TEAM_EXTRA_SEAT = 8;
     const MORE_QUERIES_PER_SEAT = 7;
     const PAGES_INCLUDED = 1000;
-    const PAGES_OVERAGE_PER_1000 = 5;
+    const PAGES_OVERAGE_PER_1000 = 4;
     const ENTERPRISE_SEATS = 50;
     const ENTERPRISE_PAGES = 10000;
 
@@ -255,8 +283,18 @@ const inputClass =
 
     function compute() {
       const seats = Math.max(1, Number(seatsEl?.value) || 1);
-      const pages = Math.max(0, Number(pagesEl?.value) || 0);
+      const pagesIndex = Math.max(
+        0,
+        Math.min(PAGES_VALUES.length - 1, Number(pagesEl?.value) || 0),
+      );
+      const pages = PAGES_VALUES[pagesIndex];
       const addon = Boolean(addonEl?.checked);
+
+      if (seatsDisplayEl) seatsDisplayEl.textContent = String(seats);
+      if (pagesDisplayEl) {
+        const suffix = pagesIndex === PAGES_VALUES.length - 1 ? "+" : "";
+        pagesDisplayEl.textContent = `${pageFormatter.format(pages)}${suffix}`;
+      }
 
       if (seats >= ENTERPRISE_SEATS || pages > ENTERPRISE_PAGES) {
         enterpriseBox?.classList.remove("hidden");

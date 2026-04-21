@@ -178,14 +178,27 @@ export const en: TranslationSchema = {
     addons: [
       {
         name: "Extended query allowance",
-        description: "500 queries per month instead of 220, per active seat.",
-        price: "+$7 per seat / month",
+        orLabel: "or",
+        options: [
+          {
+            text: "500 queries per month instead of 220, per active seat.",
+            price: "+$7 per seat / month",
+          },
+        ],
       },
       {
         name: "Extra pages",
-        description:
-          "Keep adding documents once you exceed the monthly allowance.",
-        price: "$5 per 1,000 one-off or $10 per 2,500 as a subscription",
+        orLabel: "or",
+        options: [
+          {
+            text: "Keep adding documents once you exceed the monthly allowance.",
+            price: "$5 per 1,000 one-off",
+          },
+          {
+            text: "Permanently raise your monthly allowance.",
+            price: "$4 per 1,000 / month subscription",
+          },
+        ],
       },
     ],
     plans: [
@@ -212,7 +225,7 @@ export const en: TranslationSchema = {
         price: "$50",
         priceUnit: "/ month",
         features: [
-          "2 seats included, then +$8 per seat",
+          "4 seats included, then +$8 per seat",
           "1,000 pages per month",
           "220 queries per seat per month",
           "Up to 250,000 pages in the archive",
