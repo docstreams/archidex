@@ -1,0 +1,7 @@
+# Notion integration for the beta-apply endpoint.
+# Copy this file to `.dev.vars` (git-ignored) and fill in real values.
+# In production, set these as secrets via `wrangler secret put` or the
+# Cloudflare Pages dashboard — never commit them.
+
+NOTION_TOKEN=""
+NOTION_BETA_DB_ID=""
