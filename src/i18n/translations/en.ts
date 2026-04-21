@@ -248,7 +248,7 @@ export const en: TranslationSchema = {
       "By applying you agree to Allmatics processing your data in line with our privacy policy.",
   },
   footer: {
-    tagline: "Enterprise AI search for Ukrainian teams.",
+    tagline: "Enterprise AI search across internal documents.",
     copyright: "Archidex by",
     allmatics: "Allmatics",
     privacy: "Privacy policy",
