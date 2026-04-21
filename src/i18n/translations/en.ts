@@ -171,24 +171,32 @@ export const en: TranslationSchema = {
     heading: "Frequently asked questions",
     items: [
       {
-        q: "Which document formats do you support?",
-        a: "PDF, DOCX, TXT, and most common office formats. The full list is clarified during onboarding.",
+        q: "Who can access the documents?",
+        a: "Only users inside your organisation according to their roles and permissions. No one outside your tenant — Allmatics included — reads documents unless you explicitly request it.",
       },
       {
-        q: "How much does DocBuddy cost?",
-        a: "The beta is free for participants. Commercial plans will be announced after general availability.",
+        q: "Do you support SAML, OAuth, and LDAP?",
+        a: "Yes. We support enterprise authentication and centralised access scenarios. Integration details are aligned during onboarding.",
+      },
+      {
+        q: "Are you GDPR-compliant?",
+        a: "Yes. We operate with GDPR requirements in mind, including data deletion and export on request.",
+      },
+      {
+        q: "How do we export or delete our data?",
+        a: "At any time. On request, we deliver a full export and deletion within 30 days, in line with GDPR.",
       },
       {
         q: "Can we self-host it on our own infrastructure?",
         a: "We discuss this case-by-case for Enterprise scenarios. Mention it in your application if it matters.",
       },
       {
-        q: "When will general availability open?",
-        a: "We plan to widen access in 2026. Beta participants get it first.",
+        q: "Which document formats do you support?",
+        a: "PDF, DOCX, TXT, and most common office formats. The full list is clarified during onboarding.",
       },
       {
-        q: "How do we export or delete our data?",
-        a: "At any time. On request, we deliver a full export and deletion within 30 days, in line with GDPR.",
+        q: "How much does DocBuddy cost?",
+        a: "The beta is free for participants. Commercial plans will be announced after general availability.",
       },
     ],
   },
