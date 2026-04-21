@@ -68,16 +68,16 @@ export const en: TranslationSchema = {
     heading: "How it works",
     steps: [
       {
-        title: "Upload your documents",
-        body: "PDF, Word, spreadsheets, text files. DocBuddy indexes them within your organisation only.",
+        title: "Bring your company archive together",
+        body: "Contracts, policies, onboarding docs, internal procedures, and working files collected over years — in one searchable place.",
       },
       {
-        title: "Ask in chat",
-        body: "Use natural language — as you would with a colleague. No special commands, no clunky UI.",
+        title: "Search through chat",
+        body: "Ask questions in natural language, as you would with a colleague. No special commands, complex filters, or manual digging through folders.",
       },
       {
-        title: "Get an answer with a source",
-        body: "Every answer includes a link to the exact document and the exact place in it. Verify in one click.",
+        title: "Verify every answer",
+        body: "DocBuddy shows the source document, page, and exact passage so the answer can be checked immediately.",
       },
     ],
   },
@@ -152,8 +152,8 @@ export const en: TranslationSchema = {
         body: "To help teams spend less time searching through folders, archives, and email threads, and more time acting on answers.",
       },
       {
-        title: "IT and security",
-        body: "To keep access to company knowledge inside the organisation, with roles, access logs, and clear rules for handling data.",
+        title: "HR and frontline teams",
+        body: "To help new employees ramp up faster, while giving the team a pocket corporate knowledge base for finding the right instructions, policies, and answers at any moment.",
       },
       {
         title: "Compliance, legal, finance",
