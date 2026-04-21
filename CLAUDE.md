@@ -49,13 +49,13 @@ Ukrainian SMB (малий та середній бізнес). Decision-makers a
 
 ### Commands
 
-| Command         | Action                                    |
-| :-------------- | :---------------------------------------- |
-| `pnpm install`  | Install dependencies                      |
-| `pnpm dev`      | Dev server at `localhost:4321`            |
-| `pnpm build`    | Production build to `./dist/`             |
-| `pnpm preview`  | Preview the production build locally      |
-| `pnpm astro …`  | Astro CLI (e.g. `astro add`, `astro check`) |
+| Command        | Action                                      |
+| :------------- | :------------------------------------------ |
+| `pnpm install` | Install dependencies                        |
+| `pnpm dev`     | Dev server at `localhost:4321`              |
+| `pnpm build`   | Production build to `./dist/`               |
+| `pnpm preview` | Preview the production build locally        |
+| `pnpm astro …` | Astro CLI (e.g. `astro add`, `astro check`) |
 
 ### Project layout
 

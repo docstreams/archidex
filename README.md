@@ -39,13 +39,13 @@ pnpm install
 pnpm dev        # http://localhost:4321
 ```
 
-| Команда         | Що робить                                   |
-| :-------------- | :------------------------------------------ |
-| `pnpm install`  | Встановити залежності                       |
-| `pnpm dev`      | Локальний dev-сервер на `localhost:4321`    |
-| `pnpm build`    | Продакшн-білд у `./dist/`                   |
-| `pnpm preview`  | Переглянути продакшн-білд локально          |
-| `pnpm astro …`  | CLI Astro (`astro add`, `astro check`, …)   |
+| Команда        | Що робить                                 |
+| :------------- | :---------------------------------------- |
+| `pnpm install` | Встановити залежності                     |
+| `pnpm dev`     | Локальний dev-сервер на `localhost:4321`  |
+| `pnpm build`   | Продакшн-білд у `./dist/`                 |
+| `pnpm preview` | Переглянути продакшн-білд локально        |
+| `pnpm astro …` | CLI Astro (`astro add`, `astro check`, …) |
 
 ## Структура
 
