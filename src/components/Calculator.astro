@@ -1,0 +1,313 @@
+---
+import { getLocale, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale).calculator;
+
+const inputClass =
+  "border-line focus:border-accent text-ink rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none";
+---
+
+<section
+  id="calculator"
+  class="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-20 lg:px-12"
+>
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-2xl">
+      <h2
+        class="font-display text-ink text-3xl leading-tight font-semibold sm:text-4xl"
+      >
+        {strings.heading}
+      </h2>
+      <p class="text-ink-muted mt-4 text-lg leading-relaxed">
+        {strings.subhead}
+      </p>
+    </div>
+
+    <div
+      id="calculator-widget"
+      class="paper-card-lifted mt-10 grid gap-0 overflow-hidden md:grid-cols-[1fr_1fr]"
+      data-locale={locale}
+    >
+      <div class="p-7 sm:p-9">
+        <div class="flex flex-col gap-6">
+          <label class="flex flex-col gap-1.5 text-sm">
+            <span class="text-ink font-medium">
+              {strings.inputs.seatsLabel}
+            </span>
+            <input
+              type="number"
+              min="1"
+              max="200"
+              step="1"
+              value="5"
+              data-calc="seats"
+              class={inputClass}
+            />
+            <span class="text-ink-soft text-xs">
+              {strings.inputs.seatsHint}
+            </span>
+          </label>
+
+          <label class="flex flex-col gap-1.5 text-sm">
+            <span class="text-ink font-medium">
+              {strings.inputs.pagesLabel}
+            </span>
+            <select data-calc="pages" class={inputClass}>
+              <option value="1000">1 000</option>
+              <option value="2000">2 000</option>
+              <option value="3000">3 000</option>
+              <option value="5000">5 000</option>
+              <option value="10000">10 000</option>
+              <option value="20000">20 000+</option>
+            </select>
+            <span class="text-ink-soft text-xs">
+              {strings.inputs.pagesHint}
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 text-sm">
+            <input
+              type="checkbox"
+              data-calc="addon"
+              class="border-line text-accent focus:ring-accent mt-0.5 h-4 w-4 shrink-0 rounded border"
+            />
+            <span class="flex flex-col gap-0.5">
+              <span class="text-ink font-medium">
+                {strings.inputs.addonLabel}
+              </span>
+              <span class="text-ink-soft text-xs">
+                {strings.inputs.addonHint}
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div
+        class="border-line bg-paper-shade/50 flex flex-col border-t p-7 sm:p-9 md:border-t-0 md:border-l"
+      >
+        <div data-output-standard>
+          <p
+            class="text-ink-soft text-[0.72rem] font-medium tracking-[0.22em] uppercase"
+          >
+            {strings.output.recommendedLabel}
+          </p>
+          <p
+            data-calc-plan
+            class="font-display text-ink mt-2 text-2xl font-semibold"
+          >
+            —
+          </p>
+
+          <div class="mt-6">
+            <p
+              class="text-ink-soft text-xs font-medium tracking-wider uppercase"
+            >
+              {strings.output.monthlyLabel}
+            </p>
+            <p class="mt-1 flex items-baseline gap-2">
+              <span
+                data-calc-total
+                class="font-display text-ink text-5xl font-semibold"
+              >
+                $0
+              </span>
+              <span class="text-ink-muted text-sm"
+                >/ {locale === "uk" ? "міс" : "month"}</span
+              >
+            </p>
+          </div>
+
+          <div class="mt-6">
+            <p
+              class="text-ink-soft text-xs font-medium tracking-wider uppercase"
+            >
+              {strings.output.breakdownLabel}
+            </p>
+            <ul
+              data-calc-breakdown
+              class="text-ink-muted mt-2 flex flex-col gap-1 text-sm"
+            >
+            </ul>
+          </div>
+
+          <div class="mt-auto pt-8">
+            <a href="#beta-apply" class="btn-primary w-full">
+              {strings.output.cta}
+            </a>
+            <p class="text-ink-soft mt-3 text-xs leading-relaxed">
+              {strings.output.disclaimer}
+              {
+                locale === "uk" && (
+                  <>
+                    <br />
+                    {strings.output.fxDisclaimer}
+                  </>
+                )
+              }
+            </p>
+          </div>
+        </div>
+
+        <div data-output-enterprise class="hidden">
+          <p
+            class="text-ink-soft text-[0.72rem] font-medium tracking-[0.22em] uppercase"
+          >
+            {strings.output.recommendedLabel}
+          </p>
+          <h3 class="text-ink mt-2 text-2xl leading-tight font-semibold">
+            {strings.enterprise.heading}
+          </h3>
+          <p class="text-ink-muted mt-4 leading-relaxed">
+            {strings.enterprise.body}
+          </p>
+          <div class="mt-auto pt-8">
+            <a href="#beta-apply" class="btn-primary w-full">
+              {strings.enterprise.cta}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const widget = document.getElementById("calculator-widget");
+  if (widget) {
+    const locale = widget.getAttribute("data-locale") ?? "uk";
+    const seatsEl = widget.querySelector<HTMLInputElement>(
+      'input[data-calc="seats"]',
+    );
+    const pagesEl = widget.querySelector<HTMLSelectElement>(
+      'select[data-calc="pages"]',
+    );
+    const addonEl = widget.querySelector<HTMLInputElement>(
+      'input[data-calc="addon"]',
+    );
+    const planEl = widget.querySelector<HTMLElement>("[data-calc-plan]");
+    const totalEl = widget.querySelector<HTMLElement>("[data-calc-total]");
+    const breakdownEl = widget.querySelector<HTMLElement>(
+      "[data-calc-breakdown]",
+    );
+    const standardBox = widget.querySelector<HTMLElement>(
+      "[data-output-standard]",
+    );
+    const enterpriseBox = widget.querySelector<HTMLElement>(
+      "[data-output-enterprise]",
+    );
+
+    const PLAN_NAMES: Record<string, Record<string, string>> = {
+      uk: { solo: "Соло", team: "Команда" },
+      en: { solo: "Solo", team: "Team" },
+    };
+
+    const LINE_LABELS: Record<
+      string,
+      { base: string; seats: string; addon: string; pages: string }
+    > = {
+      uk: {
+        base: "Базова плата",
+        seats: "Додаткові місця",
+        addon: "Розширені запити",
+        pages: "Додаткові сторінки",
+      },
+      en: {
+        base: "Base plan",
+        seats: "Extra seats",
+        addon: "Extended queries",
+        pages: "Extra pages",
+      },
+    };
+
+    const names = PLAN_NAMES[locale] ?? PLAN_NAMES.uk;
+    const lines = LINE_LABELS[locale] ?? LINE_LABELS.uk;
+
+    const BASIC_BASE = 8;
+    const TEAM_BASE = 50;
+    const TEAM_SEATS_INCLUDED = 2;
+    const TEAM_EXTRA_SEAT = 8;
+    const MORE_QUERIES_PER_SEAT = 7;
+    const PAGES_INCLUDED = 1000;
+    const PAGES_OVERAGE_PER_1000 = 5;
+    const ENTERPRISE_SEATS = 50;
+    const ENTERPRISE_PAGES = 10000;
+
+    function renderBreakdown(rows: { label: string; value: string }[]) {
+      if (!breakdownEl) return;
+      while (breakdownEl.firstChild) {
+        breakdownEl.removeChild(breakdownEl.firstChild);
+      }
+      for (const row of rows) {
+        const li = document.createElement("li");
+        li.className = "flex justify-between gap-4";
+        const label = document.createElement("span");
+        label.textContent = row.label;
+        const value = document.createElement("span");
+        value.className = "text-ink font-medium";
+        value.textContent = row.value;
+        li.appendChild(label);
+        li.appendChild(value);
+        breakdownEl.appendChild(li);
+      }
+    }
+
+    function compute() {
+      const seats = Math.max(1, Number(seatsEl?.value) || 1);
+      const pages = Math.max(0, Number(pagesEl?.value) || 0);
+      const addon = Boolean(addonEl?.checked);
+
+      if (seats >= ENTERPRISE_SEATS || pages > ENTERPRISE_PAGES) {
+        enterpriseBox?.classList.remove("hidden");
+        standardBox?.classList.add("hidden");
+        return;
+      }
+      enterpriseBox?.classList.add("hidden");
+      standardBox?.classList.remove("hidden");
+
+      const isSolo = seats === 1;
+      const base = isSolo ? BASIC_BASE : TEAM_BASE;
+      const seatUnits = isSolo ? 0 : Math.max(0, seats - TEAM_SEATS_INCLUDED);
+      const seatsCost = seatUnits * TEAM_EXTRA_SEAT;
+      const addonCost = addon ? seats * MORE_QUERIES_PER_SEAT : 0;
+      const pagesOver = Math.max(0, pages - PAGES_INCLUDED);
+      const pagesCost = Math.ceil(pagesOver / 1000) * PAGES_OVERAGE_PER_1000;
+      const total = base + seatsCost + addonCost + pagesCost;
+
+      if (planEl) planEl.textContent = isSolo ? names.solo : names.team;
+      if (totalEl) totalEl.textContent = `$${total}`;
+
+      const rows: { label: string; value: string }[] = [
+        { label: lines.base, value: `$${base}` },
+      ];
+      if (seatsCost > 0) {
+        rows.push({
+          label: `${lines.seats} (${seatUnits} × $${TEAM_EXTRA_SEAT})`,
+          value: `$${seatsCost}`,
+        });
+      }
+      if (addonCost > 0) {
+        rows.push({
+          label: `${lines.addon} (${seats} × $${MORE_QUERIES_PER_SEAT})`,
+          value: `$${addonCost}`,
+        });
+      }
+      if (pagesCost > 0) {
+        const packs = Math.ceil(pagesOver / 1000);
+        rows.push({
+          label: `${lines.pages} (${packs} × $${PAGES_OVERAGE_PER_1000})`,
+          value: `$${pagesCost}`,
+        });
+      }
+      renderBreakdown(rows);
+    }
+
+    [seatsEl, pagesEl, addonEl].forEach((el) => {
+      el?.addEventListener("input", compute);
+      el?.addEventListener("change", compute);
+    });
+
+    compute();
+  }
+</script>

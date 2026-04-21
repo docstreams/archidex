@@ -168,6 +168,109 @@ export const en: TranslationSchema = {
     linkLabel: "allmatics.com",
     linkHref: "https://allmatics.com",
   },
+  pricing: {
+    heading: "Transparent plans, no invoice surprises",
+    subhead:
+      "Prices in USD. Customers in Ukraine are billed in UAH at the National Bank rate on the invoice date.",
+    recommendedBadge: "Most popular",
+    contactPrice: "On request",
+    addonsHeading: "Add-ons available on any plan",
+    addons: [
+      {
+        name: "Extended query allowance",
+        description: "500 queries per month instead of 220, per active seat.",
+        price: "+$7 per seat / month",
+      },
+      {
+        name: "Extra pages",
+        description:
+          "Keep adding documents once you exceed the monthly allowance.",
+        price: "$5 per 1,000 one-off or $10 per 2,500 as a subscription",
+      },
+    ],
+    plans: [
+      {
+        key: "solo",
+        name: "Solo",
+        tagline: "For a single user",
+        price: "$8",
+        priceUnit: "/ month",
+        features: [
+          "1 user",
+          "1,000 pages per month",
+          "220 queries per month",
+          "Up to 25,000 pages in the archive",
+          "Chat and email support",
+        ],
+        cta: "Apply",
+        recommended: false,
+      },
+      {
+        key: "team",
+        name: "Team",
+        tagline: "For teams working together",
+        price: "$50",
+        priceUnit: "/ month",
+        features: [
+          "2 seats included, then +$8 per seat",
+          "1,000 pages per month",
+          "220 queries per seat per month",
+          "Up to 250,000 pages in the archive",
+          "SAML, OAuth, LDAP",
+          "Priority support",
+        ],
+        cta: "Apply",
+        recommended: true,
+      },
+      {
+        key: "enterprise",
+        name: "Enterprise",
+        tagline: "For large teams and custom requirements",
+        price: "",
+        priceUnit: "",
+        features: [
+          "From 50 users",
+          "Unlimited archive size",
+          "Self-host, custom retention, DPA",
+          "SLA and dedicated manager",
+          "Integrations for your team's workflows",
+        ],
+        cta: "Contact us",
+        recommended: false,
+      },
+    ],
+  },
+  calculator: {
+    heading: "Estimate your cost",
+    subhead:
+      "Get a monthly estimate based on team size and document volume. Final pricing is confirmed after your application.",
+    inputs: {
+      seatsLabel: "How many people will use it",
+      seatsHint: "Accounts with access to the chat",
+      pagesLabel: "New pages per month",
+      pagesHint: "Documents you plan to add each month",
+      addonLabel: "Add 500 queries per seat (instead of 220)",
+      addonHint: "+$7 per seat",
+    },
+    output: {
+      recommendedLabel: "Your plan",
+      monthlyLabel: "Per month",
+      breakdownLabel: "Breakdown",
+      lineBase: "Base plan",
+      lineSeats: "Extra seats",
+      lineAddon: "Extended queries",
+      linePages: "Extra pages",
+      disclaimer:
+        "Estimated pricing. Final price is confirmed after your application.",
+      fxDisclaimer: "In UAH — at the National Bank rate on the invoice date.",
+      cta: "Apply",
+    },
+    enterprise: {
+      heading: "You're in Enterprise territory",
+      body: "For teams above 50 people or with specific requirements we price individually. Self-host, SLA, custom retention, integrations.",
+      cta: "Contact us",
+    },
+  },
   faq: {
     heading: "Frequently asked questions",
     items: [
@@ -197,7 +300,7 @@ export const en: TranslationSchema = {
       },
       {
         q: "How much does Archidex cost?",
-        a: "The beta is free for participants. Commercial plans will be announced after general availability.",
+        a: "The beta is free for participants. Use the calculator above to estimate cost after general availability — we finalise pricing per customer.",
       },
     ],
   },
