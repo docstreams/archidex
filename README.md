@@ -1,46 +1,74 @@
-# Astro Starter Kit: Basics
+# DocBuddy — лендінг
+
+Маркетинговий сайт **DocBuddy** — B2B-платформи для пошуку інформації у внутрішніх документах компанії за допомогою AI-чату з посиланнями на першоджерела.
+
+Продукт від [Allmatics](https://allmatics.com) (команда, що зробила DocStreams.ai).
+
+> **Статус:** закрита бета. На сайті немає прямої реєстрації — лише форма заявки на бета-доступ.
+
+## Що робить DocBuddy
+
+- Співробітники організації завантажують документи (договори, регламенти, інструкції, звіти).
+- Інші співробітники ставлять запитання у AI-чаті та отримують відповіді **з посиланнями на конкретні документи й місця в них**.
+- Відповіді ґрунтуються виключно на ваших документах — без галюцинацій і без «води» з інтернету.
+
+### Для кого
+
+Український малий і середній бізнес, якому потрібно швидко знаходити інформацію у власних документах і водночас контролювати, хто що бачить.
+
+### Що всередині коробки
+
+- Вхід через **SAML, OAuth, LDAP**.
+- Відповідність **GDPR**.
+- **Ваші дані не використовуються для тренування моделей.**
+- **Ми не продаємо й не передаємо ваші дані** для реклами чи аналітики.
+- **Доступ — лише в межах вашої організації.**
+- Повні логи доступу та керування ролями.
+- Без булшиту — лише дані з ваших документів.
+
+## Технології
+
+- [Astro 6](https://astro.build/) + TypeScript
+- `pnpm`, Node `>=24.15.0`
+- Статична генерація, мінімум клієнтського JS
+
+## Розробка
 
 ```sh
-pnpm create astro@latest -- --template basics
+pnpm install
+pnpm dev        # http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+| Команда         | Що робить                                   |
+| :-------------- | :------------------------------------------ |
+| `pnpm install`  | Встановити залежності                       |
+| `pnpm dev`      | Локальний dev-сервер на `localhost:4321`    |
+| `pnpm build`    | Продакшн-білд у `./dist/`                   |
+| `pnpm preview`  | Переглянути продакшн-білд локально          |
+| `pnpm astro …`  | CLI Astro (`astro add`, `astro check`, …)   |
 
-## 🚀 Project Structure
+## Структура
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```
+public/            статичні ресурси (favicon, og-зображення, мaскот)
+src/
+  assets/          імпортовані ресурси
+  components/      Astro-компоненти (секції лендінгу, форма, мaскот)
+  layouts/         лейаути сторінок
+  pages/           маршрути (index.astro)
+astro.config.mjs
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Правила для контриб’юторів
 
-## 🧞 Commands
+- **Уся копія — українською.** Англійською — лише бренди й технічні абревіатури (SAML, OAuth, LDAP, GDPR).
+- **Paper-style** дизайн: кремовий фон, паперові текстури, м’які тіні, рукописні акценти. Без неонів і градієнтів-хайпу.
+- Єдиний CTA на сайті — **«Подати заявку на бета-доступ»**. Не додавайте форми прямої реєстрації чи pricing-блоки.
+- Без сторонніх трекерів, чат-віджетів і шрифтів із зовнішніх CDN без окремого погодження — продукт обіцяє мінімалізм у даних, і лендінг має це демонструвати.
+- Шрифти — самохост. Зображення — стиснуті. `alt` — українською.
 
-All commands are run from the root of the project, from a terminal:
+Детальніші інструкції для AI-агентів (Claude Code тощо) — у [`CLAUDE.md`](./CLAUDE.md).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Ліцензія
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+© Allmatics. Усі права захищено.
