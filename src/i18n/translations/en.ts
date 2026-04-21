@@ -136,14 +136,7 @@ export const en: TranslationSchema = {
       },
     ],
     capabilitiesLabel: "Enterprise-ready",
-    capabilities: [
-      "SAML",
-      "OAuth",
-      "LDAP",
-      "GDPR",
-      "full access logs",
-      "role-based permissions",
-    ],
+    capabilities: ["SSO", "GDPR", "full access logs", "role-based permissions"],
   },
   forWhom: {
     heading: "Who this is primarily for",
@@ -229,7 +222,7 @@ export const en: TranslationSchema = {
           "1,000 pages per month",
           "220 queries per seat per month",
           "Up to 250,000 pages in the archive",
-          "SAML, OAuth, LDAP",
+          "SSO",
           "Priority support",
         ],
         cta: "Apply",
@@ -292,7 +285,7 @@ export const en: TranslationSchema = {
         a: "Only users inside your organisation according to their roles and permissions. No one outside your tenant — Allmatics included — reads documents unless you explicitly request it.",
       },
       {
-        q: "Do you support SAML, OAuth, and LDAP?",
+        q: "Do you support SSO?",
         a: "Yes. We support enterprise authentication and centralised access scenarios. Integration details are aligned during onboarding.",
       },
       {
