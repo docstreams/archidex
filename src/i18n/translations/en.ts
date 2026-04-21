@@ -145,19 +145,19 @@ export const en: TranslationSchema = {
     ],
   },
   forWhom: {
-    heading: "Who this is for",
+    heading: "Who this is primarily for",
     audiences: [
       {
-        title: "Legal and finance teams",
-        body: "Instant search across contracts, policies, and reports. Less scrolling — more analysis.",
+        title: "Operations leaders",
+        body: "To help teams spend less time searching through folders, archives, and email threads, and more time acting on answers.",
       },
       {
-        title: "Operations and HR",
-        body: "Onboarding without tribal knowledge. Answers to recurring questions in seconds.",
+        title: "IT and security",
+        body: "To keep access to company knowledge inside the organisation, with roles, access logs, and clear rules for handling data.",
       },
       {
-        title: "Founders and executives",
-        body: "Company knowledge lives in a system, not in a few people's heads. With audit and access control.",
+        title: "Compliance, legal, finance",
+        body: "To find the right clause in contracts, policies, and regulations quickly, and verify the source immediately.",
       },
     ],
   },
