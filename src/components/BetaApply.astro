@@ -3,6 +3,10 @@ import { getLocale, t, type Locale } from "../i18n";
 
 const locale: Locale = getLocale(Astro.currentLocale);
 const strings = t(locale).betaApply;
+
+const inputClass =
+  "border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none aria-invalid:border-red-500 aria-invalid:focus:border-red-500";
+const fieldErrorClass = "hidden text-xs text-red-700";
 ---
 
 <section
@@ -28,6 +32,7 @@ const strings = t(locale).betaApply;
             id="beta-apply-form"
             class="mt-8 flex flex-col gap-4"
             data-locale={locale}
+            data-default-error={strings.fieldErrors.name}
             novalidate
           >
             <div class="grid gap-4 sm:grid-cols-2">
@@ -39,8 +44,17 @@ const strings = t(locale).betaApply;
                   required
                   autocomplete="name"
                   placeholder={strings.placeholders.name}
-                  class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+                  aria-describedby="beta-error-name"
+                  class={inputClass}
                 />
+                <p
+                  id="beta-error-name"
+                  data-field-error="name"
+                  class={fieldErrorClass}
+                  role="alert"
+                >
+                  {strings.fieldErrors.name}
+                </p>
               </label>
               <label class="flex flex-col gap-1.5 text-sm">
                 <span class="text-ink font-medium">{strings.labels.email}</span>
@@ -50,8 +64,17 @@ const strings = t(locale).betaApply;
                   required
                   autocomplete="email"
                   placeholder={strings.placeholders.email}
-                  class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+                  aria-describedby="beta-error-email"
+                  class={inputClass}
                 />
+                <p
+                  id="beta-error-email"
+                  data-field-error="email"
+                  class={fieldErrorClass}
+                  role="alert"
+                >
+                  {strings.fieldErrors.email}
+                </p>
               </label>
             </div>
 
@@ -66,8 +89,17 @@ const strings = t(locale).betaApply;
                   required
                   autocomplete="organization"
                   placeholder={strings.placeholders.company}
-                  class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+                  aria-describedby="beta-error-company"
+                  class={inputClass}
                 />
+                <p
+                  id="beta-error-company"
+                  data-field-error="company"
+                  class={fieldErrorClass}
+                  role="alert"
+                >
+                  {strings.fieldErrors.company}
+                </p>
               </label>
               <label class="flex flex-col gap-1.5 text-sm">
                 <span class="text-ink font-medium">{strings.labels.role}</span>
@@ -76,7 +108,7 @@ const strings = t(locale).betaApply;
                   name="role"
                   autocomplete="organization-title"
                   placeholder={strings.placeholders.role}
-                  class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+                  class={inputClass}
                 />
               </label>
             </div>
@@ -86,7 +118,8 @@ const strings = t(locale).betaApply;
               <select
                 name="size"
                 required
-                class="border-line focus:border-accent text-ink rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+                aria-describedby="beta-error-size"
+                class={inputClass}
               >
                 <option value="" disabled selected>—</option>
                 {
@@ -95,6 +128,14 @@ const strings = t(locale).betaApply;
                   ))
                 }
               </select>
+              <p
+                id="beta-error-size"
+                data-field-error="size"
+                class={fieldErrorClass}
+                role="alert"
+              >
+                {strings.fieldErrors.size}
+              </p>
             </label>
 
             <label class="flex flex-col gap-1.5 text-sm">
@@ -103,8 +144,7 @@ const strings = t(locale).betaApply;
                 name="useCase"
                 rows="3"
                 placeholder={strings.placeholders.useCase}
-                class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 resize-y rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
-              ></textarea>
+                class={`${inputClass} resize-y`}></textarea>
             </label>
 
             <div class="sr-only" aria-hidden="true">
@@ -185,6 +225,17 @@ const strings = t(locale).betaApply;
 </section>
 
 <script>
+  type FieldName = "name" | "email" | "company" | "size";
+
+  interface BetaApplyResponse {
+    success: boolean;
+    message?: string;
+    error?: string;
+    fieldErrors?: Partial<Record<FieldName, string>>;
+  }
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const form = document.getElementById(
     "beta-apply-form",
   ) as HTMLFormElement | null;
@@ -207,35 +258,97 @@ const strings = t(locale).betaApply;
     const idleLabel = button?.dataset.labelIdle ?? "Submit";
     const sendingLabel = button?.dataset.labelSending ?? "Sending…";
 
+    const errorNodes = new Map<FieldName, HTMLElement>();
+    form.querySelectorAll<HTMLElement>("[data-field-error]").forEach((node) => {
+      const field = node.dataset.fieldError as FieldName | undefined;
+      if (field) errorNodes.set(field, node);
+    });
+
+    const inputs: Record<
+      FieldName,
+      HTMLInputElement | HTMLSelectElement | null
+    > = {
+      name: form.elements.namedItem("name") as HTMLInputElement | null,
+      email: form.elements.namedItem("email") as HTMLInputElement | null,
+      company: form.elements.namedItem("company") as HTMLInputElement | null,
+      size: form.elements.namedItem("size") as HTMLSelectElement | null,
+    };
+
+    const defaultMessages: Record<FieldName, string> = {
+      name: errorNodes.get("name")?.textContent?.trim() ?? "",
+      email: errorNodes.get("email")?.textContent?.trim() ?? "",
+      company: errorNodes.get("company")?.textContent?.trim() ?? "",
+      size: errorNodes.get("size")?.textContent?.trim() ?? "",
+    };
+
+    function setFieldError(field: FieldName, message: string | null) {
+      const node = errorNodes.get(field);
+      const input = inputs[field];
+      if (!node || !input) return;
+      if (message) {
+        node.textContent = message;
+        node.classList.remove("hidden");
+        input.setAttribute("aria-invalid", "true");
+      } else {
+        node.textContent = defaultMessages[field];
+        node.classList.add("hidden");
+        input.removeAttribute("aria-invalid");
+      }
+    }
+
+    function clearAllFieldErrors() {
+      (Object.keys(inputs) as FieldName[]).forEach((f) =>
+        setFieldError(f, null),
+      );
+    }
+
+    (Object.keys(inputs) as FieldName[]).forEach((field) => {
+      const input = inputs[field];
+      if (!input) return;
+      input.addEventListener("input", () => setFieldError(field, null));
+      input.addEventListener("change", () => setFieldError(field, null));
+    });
+
+    function validateLocally(payload: {
+      name: string;
+      email: string;
+      company: string;
+      size: string;
+    }): FieldName | null {
+      if (!payload.name) return "name";
+      if (!payload.email || !EMAIL_RE.test(payload.email)) return "email";
+      if (!payload.company) return "company";
+      if (!payload.size) return "size";
+      return null;
+    }
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       if (!button) return;
-      if (errorEl) errorEl.classList.add("hidden");
+      errorEl?.classList.add("hidden");
+      clearAllFieldErrors();
 
       const formData = new FormData(form);
-      const website = (formData.get("website") as string) || "";
-      if (website.trim().length > 0) {
+      const website = ((formData.get("website") as string) || "").trim();
+      if (website.length > 0) {
         return;
       }
 
       const payload = {
-        name: (formData.get("name") as string)?.trim() ?? "",
-        email: (formData.get("email") as string)?.trim() ?? "",
-        company: (formData.get("company") as string)?.trim() ?? "",
-        role: (formData.get("role") as string)?.trim() ?? "",
-        size: (formData.get("size") as string) ?? "",
-        useCase: (formData.get("useCase") as string)?.trim() ?? "",
+        name: ((formData.get("name") as string) ?? "").trim(),
+        email: ((formData.get("email") as string) ?? "").trim(),
+        company: ((formData.get("company") as string) ?? "").trim(),
+        role: ((formData.get("role") as string) ?? "").trim(),
+        size: ((formData.get("size") as string) ?? "").trim(),
+        useCase: ((formData.get("useCase") as string) ?? "").trim(),
         locale: form.dataset.locale ?? "uk",
       };
 
-      if (
-        !payload.name ||
-        !payload.email ||
-        !payload.company ||
-        !payload.size
-      ) {
-        if (errorEl) errorEl.classList.remove("hidden");
+      const localFailure = validateLocally(payload);
+      if (localFailure) {
+        setFieldError(localFailure, defaultMessages[localFailure]);
+        inputs[localFailure]?.focus();
         return;
       }
 
@@ -250,17 +363,37 @@ const strings = t(locale).betaApply;
           body: JSON.stringify(payload),
         });
 
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = (await response
+          .json()
+          .catch(() => null)) as BetaApplyResponse | null;
 
-        const data = (await response.json()) as { success: boolean };
-        if (!data.success) throw new Error("submission rejected");
+        if (!response.ok || !data?.success) {
+          if (data?.fieldErrors) {
+            const failingFields: FieldName[] = [];
+            (Object.keys(data.fieldErrors) as FieldName[]).forEach((field) => {
+              const msg = data.fieldErrors?.[field];
+              if (msg) {
+                setFieldError(field, defaultMessages[field] ?? msg);
+                failingFields.push(field);
+              }
+            });
+            const firstField = failingFields[0];
+            if (firstField) inputs[firstField]?.focus();
+          } else {
+            errorEl?.classList.remove("hidden");
+          }
+          button.disabled = false;
+          button.textContent = idleLabel;
+          form.removeAttribute("aria-busy");
+          return;
+        }
 
         introEl?.classList.add("hidden");
         successEl?.classList.remove("hidden");
         mascotIdle?.classList.add("hidden");
         mascotSuccess?.classList.remove("hidden");
       } catch {
-        if (errorEl) errorEl.classList.remove("hidden");
+        errorEl?.classList.remove("hidden");
         button.disabled = false;
         button.textContent = idleLabel;
         form.removeAttribute("aria-busy");

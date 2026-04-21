@@ -157,6 +157,12 @@ export const en: TranslationSchema = {
     },
     error:
       "We couldn't submit your application. Try again, or email us at hello@allmatics.com.",
+    fieldErrors: {
+      name: "Please enter your name.",
+      email: "Please enter a valid work email.",
+      company: "Please enter your company name.",
+      size: "Please select a team size.",
+    },
     mascotAlt: "Dex holding up a card with a checkmark — application received",
     privacy:
       "By applying you agree to Allmatics processing your data in line with our privacy policy.",

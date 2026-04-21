@@ -16,10 +16,13 @@ const BetaApplicationSchema = z.object({
   website: z.string().optional().default(""),
 });
 
+type FieldName = "name" | "email" | "company" | "size";
+
 interface ApplicationResponse {
   success: boolean;
   message: string;
   error?: string;
+  fieldErrors?: Partial<Record<FieldName, string>>;
 }
 
 function jsonResponse(status: number, body: ApplicationResponse): Response {
@@ -27,6 +30,30 @@ function jsonResponse(status: number, body: ApplicationResponse): Response {
     status,
     headers: { "Content-Type": "application/json" },
   });
+}
+
+const REPORTABLE_FIELDS: readonly FieldName[] = [
+  "name",
+  "email",
+  "company",
+  "size",
+];
+
+function mapZodFieldErrors(
+  error: z.ZodError,
+): Partial<Record<FieldName, string>> {
+  const result: Partial<Record<FieldName, string>> = {};
+  for (const issue of error.issues) {
+    const key = issue.path[0];
+    if (
+      typeof key === "string" &&
+      (REPORTABLE_FIELDS as readonly string[]).includes(key)
+    ) {
+      const field = key as FieldName;
+      if (!result[field]) result[field] = issue.message;
+    }
+  }
+  return result;
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -46,7 +73,7 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonResponse(400, {
       success: false,
       message: "Invalid input",
-      error: parsed.error.issues.map((i) => i.message).join(", "),
+      fieldErrors: mapZodFieldErrors(parsed.error),
     });
   }
 
