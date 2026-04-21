@@ -6,63 +6,55 @@ const strings = t(locale).faq;
 ---
 
 <section class="bg-paper-shade/50 px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-  <div class="mx-auto max-w-5xl">
-    <div class="md:grid md:grid-cols-[minmax(0,1fr)_240px] md:gap-12">
-      <div class="min-w-0">
-        <h2
-          class="font-display text-ink text-3xl leading-tight font-semibold sm:text-4xl"
-        >
-          {strings.heading}
-        </h2>
-
-        <ul class="mt-10 flex flex-col gap-3">
-          {
-            strings.items.map((item) => (
-              <li class="paper-card overflow-hidden">
-                <details class="group">
-                  <summary class="text-ink flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 [&::-webkit-details-marker]:hidden">
-                    <span class="text-base font-medium sm:text-lg">
-                      {item.q}
-                    </span>
-                    <span
-                      class="bg-paper-shade text-ink-muted inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-transform group-open:rotate-45"
-                      aria-hidden="true"
-                    >
-                      <svg
-                        class="h-3.5 w-3.5"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      >
-                        <path d="M8 3v10M3 8h10" />
-                      </svg>
-                    </span>
-                  </summary>
-                  <div class="text-ink-muted px-6 pb-5 leading-relaxed">
-                    {item.a}
-                  </div>
-                </details>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <aside class="hidden md:block" aria-hidden="true">
-        <div class="sticky top-28 flex justify-center">
-          <img
-            src="/mascot/dex-faq.webp"
-            alt=""
-            class="h-auto w-full max-w-[220px] object-contain"
-            width="440"
-            height="440"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      </aside>
+  <div class="mx-auto max-w-3xl">
+    <div class="flex items-center gap-4">
+      <img
+        src="/mascot/dex-faq.webp"
+        alt=""
+        aria-hidden="true"
+        class="h-16 w-16 shrink-0 object-contain sm:h-20 sm:w-20"
+        width="160"
+        height="160"
+        loading="lazy"
+        decoding="async"
+      />
+      <h2
+        class="font-display text-ink text-3xl leading-tight font-semibold sm:text-4xl"
+      >
+        {strings.heading}
+      </h2>
     </div>
+
+    <ul class="mt-10 flex flex-col gap-3">
+      {
+        strings.items.map((item) => (
+          <li class="paper-card overflow-hidden">
+            <details class="group">
+              <summary class="text-ink flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 [&::-webkit-details-marker]:hidden">
+                <span class="text-base font-medium sm:text-lg">{item.q}</span>
+                <span
+                  class="bg-paper-shade text-ink-muted inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-transform group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  >
+                    <path d="M8 3v10M3 8h10" />
+                  </svg>
+                </span>
+              </summary>
+              <div class="text-ink-muted px-6 pb-5 leading-relaxed">
+                {item.a}
+              </div>
+            </details>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
