@@ -192,7 +192,7 @@ export const en: TranslationSchema = {
       },
       {
         q: "Which document formats do you support?",
-        a: "PDF, DOCX, TXT, and most common office formats. The full list is clarified during onboarding.",
+        a: "PDF, DOCX, XLSX, PPTX, PNG, JPG, TXT, and most common office formats. The full list is clarified during onboarding.",
       },
       {
         q: "How much does Archidex cost?",
