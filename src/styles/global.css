@@ -55,10 +55,6 @@
     color: var(--color-ink);
   }
 
-  p {
-    color: var(--color-ink-muted);
-  }
-
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
