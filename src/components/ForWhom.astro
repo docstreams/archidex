@@ -1,0 +1,29 @@
+---
+import { getLocale, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale).forWhom;
+---
+
+<section class="px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
+  <div class="mx-auto max-w-6xl">
+    <h2
+      class="font-display text-ink text-3xl leading-tight font-semibold sm:text-4xl"
+    >
+      {strings.heading}
+    </h2>
+
+    <ul class="mt-10 grid gap-6 sm:grid-cols-3">
+      {
+        strings.audiences.map((audience) => (
+          <li class="paper-card flex flex-col p-7">
+            <h3 class="text-ink text-lg leading-tight font-semibold">
+              {audience.title}
+            </h3>
+            <p class="text-ink-muted mt-3 leading-relaxed">{audience.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

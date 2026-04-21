@@ -1,0 +1,42 @@
+---
+import { getLocale, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale).allmatics;
+---
+
+<section class="px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
+  <div class="mx-auto max-w-4xl">
+    <div class="paper-card p-8 sm:p-10">
+      <h2
+        class="font-display text-ink text-2xl leading-tight font-semibold sm:text-3xl"
+      >
+        {strings.heading}
+      </h2>
+      <p class="text-ink-muted mt-4 text-lg leading-relaxed">
+        {strings.body}
+      </p>
+      <a
+        href={strings.linkHref}
+        class="text-accent mt-6 inline-flex items-center gap-1.5 text-sm font-medium hover:underline"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {strings.linkLabel}
+        <svg
+          class="h-3.5 w-3.5"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M6 3h7v7"></path>
+          <path d="M13 3L4 12"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
