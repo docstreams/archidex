@@ -37,8 +37,8 @@ Ukrainian SMB (малий та середній бізнес). Decision-makers a
 ## Design direction
 
 - **Clean editorial with paper accents.** Off-white / cream background, serif display headings + humanist sans body, soft layered shadows (as if sheets sit on a page), subtle paper-texture accents — but **no heavy grain, no hand-drawn scribbles, no skeuomorphic "notebook" frames.** The page should feel like a calm editorial magazine, not a scrapbook. This softer direction was chosen so it can coexist with the 3D mascot without stylistic collision.
-- **Mascot: Октік (Oktik)** — a purple 3D baby octopus. Reference sheet at `docbuddy.jpg` in the repo root (hero pose, searching poses, found-answer, working-with-sources, emotions, avatar/icon circles). Must appear with intent in ≥2 places — hero, empty state of the product mock, and near the beta-apply form. Use existing renders; do not commission variants without asking.
-- Mascot is the focal colour contrast against the calm editorial palette. Keep the rest of the page restrained so Октік doesn't compete with decorative elements.
+- **Mascot: Декс (Dex)** — a purple 3D baby octopus. Reference sheet at `docbuddy.jpg` in the repo root (hero pose, searching poses, found-answer, working-with-sources, emotions, avatar/icon circles). Must appear with intent in ≥2 places — hero, empty state of the product mock, and near the beta-apply form. Image assets live under `public/mascot/` as `dex-hero.webp`, `dex-working.webp`, `dex-form.webp`. Use existing renders; do not commission variants without asking.
+- Mascot is the focal colour contrast against the calm editorial palette. Keep the rest of the page restrained so Декс doesn't compete with decorative elements.
 - Accessibility is not optional: ≥4.5:1 contrast on body text despite the cream palette, visible focus states on the beta form, semantic HTML, Ukrainian `alt` text.
 
 ## Tech stack

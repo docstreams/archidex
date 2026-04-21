@@ -6,7 +6,7 @@ export const en: TranslationSchema = {
     defaultDescription:
       "Enterprise AI search for Ukrainian teams. Upload your documents, ask questions — get answers with a citation and link to the source.",
     ogImageAlt:
-      "DocBuddy — Oktik the mascot helping to find an answer inside corporate documents",
+      "DocBuddy — Dex the mascot helping to find an answer inside corporate documents",
   },
   header: {
     brand: "DocBuddy",
@@ -21,7 +21,7 @@ export const en: TranslationSchema = {
       "DocBuddy is enterprise AI search for Ukrainian teams. Upload your documents, ask in natural language, and get answers with a quote and a link to the original source.",
     cta: "Apply for beta access",
     mascotAlt:
-      "Oktik — DocBuddy's purple octopus mascot — holding PDF, Word, and folder files",
+      "Dex — DocBuddy's purple octopus mascot — holding PDF, Word, and folder files",
   },
   problem: {
     heading: "Sound familiar?",
@@ -59,7 +59,7 @@ export const en: TranslationSchema = {
     citationLabel: "Source",
     citationDoc: "Contract No. 2026-014 with Viter LLC",
     citationPage: "p. 3",
-    emptyStateAlt: "Oktik working on a laptop, surrounded by documents",
+    emptyStateAlt: "Dex working on a laptop, surrounded by documents",
   },
   security: {
     heading: "Your data stays under your control",
@@ -157,8 +157,7 @@ export const en: TranslationSchema = {
     },
     error:
       "We couldn't submit your application. Try again, or email us at hello@allmatics.com.",
-    mascotAlt:
-      "Oktik holding up a card with a checkmark — application received",
+    mascotAlt: "Dex holding up a card with a checkmark — application received",
     privacy:
       "By applying you agree to Allmatics processing your data in line with our privacy policy.",
   },
