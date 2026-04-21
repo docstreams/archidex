@@ -15,13 +15,44 @@ export const en: TranslationSchema = {
     switchToEn: "EN",
   },
   hero: {
-    kicker: "Closed beta",
-    headline: "Answers from your own documents — with a link to the source",
+    kicker: "For teams working with large document volumes",
+    headline: "Smart search across corporate documents",
     subhead:
-      "DocBuddy is enterprise AI search for Ukrainian teams. Upload your documents, ask in natural language, and get answers with a quote and a link to the original source.",
+      "Find the right information across archives, folders, and documents accumulated over years of company work. DocBuddy answers from your own files and shows the source.",
     cta: "Apply for beta access",
+    proofLabel: "Key benefits",
+    proofPoints: [
+      "Thousands of documents",
+      "Answers with sources",
+      "Access limited to your organisation",
+    ],
+    panelEyebrow: "Company knowledge archive",
+    archiveLabel: "Example archive sections",
+    archiveItems: [
+      {
+        title: "Contracts and addenda",
+        meta: "2019-2026 · PDF, DOCX",
+        badge: "486 files",
+      },
+      {
+        title: "Policies, procedures, compliance",
+        meta: "Internal rules and templates",
+        badge: "214 files",
+      },
+      {
+        title: "Onboarding, HR, knowledge base",
+        meta: "Instructions, FAQs, processes",
+        badge: "548 files",
+      },
+    ],
+    answerLabel: "Dex found this for you",
+    answerTitle: "Early termination terms in the contract",
+    answerText:
+      "The contract can be terminated with 30 days' notice without penalty.",
+    sourceLabel: "Source",
+    sourceText: "Contract No. 2026-014 with Viter LLC · p. 3",
     mascotAlt:
-      "Dex — DocBuddy's purple octopus mascot — holding PDF, Word, and folder files",
+      "Dex, DocBuddy's purple octopus mascot, next to a company document archive",
   },
   problem: {
     heading: "Sound familiar?",
