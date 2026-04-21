@@ -1,0 +1,251 @@
+---
+import { getLocale, t, type Locale } from "../i18n";
+
+const locale: Locale = getLocale(Astro.currentLocale);
+const strings = t(locale).betaApply;
+---
+
+<section
+  id="beta-apply"
+  class="scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24 lg:px-12"
+>
+  <div class="mx-auto max-w-4xl">
+    <div
+      class="paper-card-lifted grid gap-0 overflow-hidden sm:grid-cols-[1fr_280px]"
+    >
+      <div class="p-7 sm:p-10">
+        <h2
+          class="font-display text-ink text-3xl leading-tight font-semibold sm:text-4xl"
+        >
+          {strings.heading}
+        </h2>
+        <p class="text-ink-muted mt-3 text-base leading-relaxed sm:text-lg">
+          {strings.subhead}
+        </p>
+
+        <form
+          id="beta-apply-form"
+          class="mt-8 flex flex-col gap-4"
+          data-locale={locale}
+          novalidate
+        >
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="flex flex-col gap-1.5 text-sm">
+              <span class="text-ink font-medium">{strings.labels.name}</span>
+              <input
+                type="text"
+                name="name"
+                required
+                autocomplete="name"
+                placeholder={strings.placeholders.name}
+                class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+              />
+            </label>
+            <label class="flex flex-col gap-1.5 text-sm">
+              <span class="text-ink font-medium">{strings.labels.email}</span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder={strings.placeholders.email}
+                class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+              />
+            </label>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="flex flex-col gap-1.5 text-sm">
+              <span class="text-ink font-medium">{strings.labels.company}</span>
+              <input
+                type="text"
+                name="company"
+                required
+                autocomplete="organization"
+                placeholder={strings.placeholders.company}
+                class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+              />
+            </label>
+            <label class="flex flex-col gap-1.5 text-sm">
+              <span class="text-ink font-medium">{strings.labels.role}</span>
+              <input
+                type="text"
+                name="role"
+                autocomplete="organization-title"
+                placeholder={strings.placeholders.role}
+                class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+              />
+            </label>
+          </div>
+
+          <label class="flex flex-col gap-1.5 text-sm">
+            <span class="text-ink font-medium">{strings.labels.size}</span>
+            <select
+              name="size"
+              required
+              class="border-line focus:border-accent text-ink rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+            >
+              <option value="" disabled selected>—</option>
+              {
+                strings.sizeOptions.map((size) => (
+                  <option value={size}>{size}</option>
+                ))
+              }
+            </select>
+          </label>
+
+          <label class="flex flex-col gap-1.5 text-sm">
+            <span class="text-ink font-medium">{strings.labels.useCase}</span>
+            <textarea
+              name="useCase"
+              rows="3"
+              placeholder={strings.placeholders.useCase}
+              class="border-line focus:border-accent text-ink placeholder:text-ink-soft/70 resize-y rounded-xl border bg-white px-3.5 py-2.5 text-base focus:outline-none"
+            ></textarea>
+          </label>
+
+          <div class="sr-only" aria-hidden="true">
+            <label>
+              Website (leave empty)
+              <input
+                type="text"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-primary mt-2 self-start disabled:cursor-not-allowed disabled:opacity-60"
+            data-label-idle={strings.submit}
+            data-label-sending={strings.sending}
+          >
+            {strings.submit}
+          </button>
+
+          <p class="text-ink-soft mt-1 text-xs leading-relaxed">
+            {strings.privacy}
+          </p>
+
+          <p
+            data-form-error
+            class="hidden text-sm text-red-700"
+            role="alert"
+            aria-live="polite"
+          >
+            {strings.error}
+          </p>
+        </form>
+
+        <div
+          data-form-success
+          class="hidden flex-col gap-2 rounded-xl border border-green-200 bg-green-50 p-5 text-green-900"
+          role="status"
+          aria-live="polite"
+        >
+          <p class="font-display text-xl font-semibold">
+            {strings.success.heading}
+          </p>
+          <p class="text-sm leading-relaxed text-green-900/80">
+            {strings.success.body}
+          </p>
+        </div>
+      </div>
+
+      <aside
+        class="border-line bg-paper-shade/50 hidden items-end justify-center border-l p-6 sm:flex"
+        aria-hidden="true"
+      >
+        <img
+          src="/mascot/octik-checkmark.webp"
+          alt={strings.mascotAlt}
+          class="h-56 w-auto object-contain"
+          width="280"
+          height="280"
+          loading="lazy"
+          decoding="async"
+        />
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById(
+    "beta-apply-form",
+  ) as HTMLFormElement | null;
+
+  if (form) {
+    const button = form.querySelector<HTMLButtonElement>(
+      'button[type="submit"]',
+    );
+    const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
+    const successEl = form.parentElement?.querySelector<HTMLElement>(
+      "[data-form-success]",
+    );
+
+    const idleLabel = button?.dataset.labelIdle ?? "Submit";
+    const sendingLabel = button?.dataset.labelSending ?? "Sending…";
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!button) return;
+      if (errorEl) errorEl.classList.add("hidden");
+
+      const formData = new FormData(form);
+      const website = (formData.get("website") as string) || "";
+      if (website.trim().length > 0) {
+        return;
+      }
+
+      const payload = {
+        name: (formData.get("name") as string)?.trim() ?? "",
+        email: (formData.get("email") as string)?.trim() ?? "",
+        company: (formData.get("company") as string)?.trim() ?? "",
+        role: (formData.get("role") as string)?.trim() ?? "",
+        size: (formData.get("size") as string) ?? "",
+        useCase: (formData.get("useCase") as string)?.trim() ?? "",
+        locale: form.dataset.locale ?? "uk",
+      };
+
+      if (
+        !payload.name ||
+        !payload.email ||
+        !payload.company ||
+        !payload.size
+      ) {
+        if (errorEl) errorEl.classList.remove("hidden");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = sendingLabel;
+      form.setAttribute("aria-busy", "true");
+
+      try {
+        const response = await fetch("/api/beta-apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = (await response.json()) as { success: boolean };
+        if (!data.success) throw new Error("submission rejected");
+
+        form.classList.add("hidden");
+        successEl?.classList.remove("hidden");
+        successEl?.classList.add("flex");
+      } catch {
+        if (errorEl) errorEl.classList.remove("hidden");
+        button.disabled = false;
+        button.textContent = idleLabel;
+        form.removeAttribute("aria-busy");
+      }
+    });
+  }
+</script>
