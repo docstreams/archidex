@@ -11,7 +11,7 @@ export const en: TranslationSchema = {
   header: {
     brand: "Archidex",
     tagline: "knowledge in your documents",
-    apply: "Apply",
+    apply: "Try",
     switchToUk: "UA",
     switchToEn: "EN",
   },
@@ -20,7 +20,7 @@ export const en: TranslationSchema = {
     headline: "Smart search across corporate documents",
     subhead:
       "Find the right information across archives, folders, and documents accumulated over years of company work. Archidex answers from your own files and shows the source.",
-    cta: "Apply for beta access",
+    cta: "Get access",
     proofLabel: "Key benefits",
     proofPoints: [
       "Thousands of documents",
