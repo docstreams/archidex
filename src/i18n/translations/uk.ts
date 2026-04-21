@@ -1,6 +1,6 @@
 export const uk = {
   meta: {
-    siteTitle: "Archidex — відповіді з ваших документів",
+    siteTitle: "Archidex — знання у ваших документах",
     defaultDescription:
       "Корпоративний AI-пошук для українських команд. Завантажте документи, ставте запитання — отримуйте відповіді з посиланням на джерело.",
     ogImageAlt:
@@ -234,7 +234,7 @@ export const uk = {
       body: "Ми переглянемо ваш сценарій використання і зв'яжемося з вами найближчим часом.",
     },
     error:
-      "Не вдалося надіслати заявку. Спробуйте ще раз або напишіть на hello@allmatics.com.",
+      "Не вдалося надіслати заявку. Спробуйте ще раз або напишіть на info@allmatics.com.",
     fieldErrors: {
       name: "Вкажіть ваше ім'я.",
       email: "Вкажіть коректну робочу пошту.",
@@ -242,8 +242,11 @@ export const uk = {
       size: "Оберіть розмір команди.",
     },
     mascotAlt: "Декс тримає табличку з галочкою — заявку отримано",
-    privacy:
-      "Надсилаючи заявку, ви погоджуєтеся з обробкою ваших даних відповідно до політики конфіденційності Allmatics.",
+    privacyPrefix:
+      "Надсилаючи заявку, ви погоджуєтеся з обробкою ваших даних відповідно до ",
+    privacyLabel: "політики конфіденційності Allmatics",
+    privacyHref: "https://allmatics.com/privacy-policy/",
+    privacySuffix: ".",
   },
   footer: {
     tagline: "Корпоративний AI-пошук по внутрішніх документах.",
@@ -251,7 +254,7 @@ export const uk = {
     allmatics: "Allmatics",
     privacy: "Політика конфіденційності",
     terms: "Умови користування",
-    contact: "hello@allmatics.com",
+    contact: "info@allmatics.com",
   },
 };
 

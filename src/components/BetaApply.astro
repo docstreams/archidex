@@ -196,7 +196,16 @@ const fieldErrorClass = "hidden text-xs text-red-700";
             </button>
 
             <p class="text-ink-soft mt-1 text-xs leading-relaxed">
-              {strings.privacy}
+              {strings.privacyPrefix}
+              <a
+                href={strings.privacyHref}
+                class="text-ink underline decoration-current/40 underline-offset-2 transition-colors hover:decoration-current"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {strings.privacyLabel}
+              </a>
+              {strings.privacySuffix}
             </p>
 
             <p

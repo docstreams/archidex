@@ -2,7 +2,7 @@ import type { TranslationSchema } from "./uk";
 
 export const en: TranslationSchema = {
   meta: {
-    siteTitle: "Archidex — answers from your own documents",
+    siteTitle: "Archidex — knowledge in your documents",
     defaultDescription:
       "Enterprise AI search for Ukrainian teams. Upload your documents, ask questions — get answers with a citation and link to the source.",
     ogImageAlt:
@@ -237,7 +237,7 @@ export const en: TranslationSchema = {
       body: "We'll review your use case and get in touch soon.",
     },
     error:
-      "We couldn't submit your application. Try again, or email us at hello@allmatics.com.",
+      "We couldn't submit your application. Try again, or email us at info@allmatics.com.",
     fieldErrors: {
       name: "Please enter your name.",
       email: "Please enter a valid work email.",
@@ -245,8 +245,11 @@ export const en: TranslationSchema = {
       size: "Please select a team size.",
     },
     mascotAlt: "Dex holding up a card with a checkmark — application received",
-    privacy:
-      "By applying you agree to Allmatics processing your data in line with our privacy policy.",
+    privacyPrefix:
+      "By applying you agree to Allmatics processing your data in line with the ",
+    privacyLabel: "Allmatics privacy policy",
+    privacyHref: "https://allmatics.com/privacy-policy/",
+    privacySuffix: ".",
   },
   footer: {
     tagline: "Enterprise AI search across internal documents.",
@@ -254,6 +257,6 @@ export const en: TranslationSchema = {
     allmatics: "Allmatics",
     privacy: "Privacy policy",
     terms: "Terms of use",
-    contact: "hello@allmatics.com",
+    contact: "info@allmatics.com",
   },
 };
