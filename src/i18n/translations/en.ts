@@ -10,6 +10,7 @@ export const en: TranslationSchema = {
   },
   header: {
     brand: "Archidex",
+    tagline: "knowledge in your documents",
     apply: "Apply",
     switchToUk: "UA",
     switchToEn: "EN",

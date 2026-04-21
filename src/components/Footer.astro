@@ -10,8 +10,28 @@ const year = new Date().getFullYear();
   <div
     class="text-ink-muted mx-auto flex max-w-7xl flex-col items-start gap-6 text-sm sm:flex-row sm:items-center sm:justify-between"
   >
-    <div class="flex flex-col gap-1">
-      <p class="text-ink font-display text-base font-semibold">Archidex</p>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center gap-3">
+        <img
+          src="/archidex_icon.png"
+          alt=""
+          aria-hidden="true"
+          class="h-9 w-9 rounded-xl object-cover"
+          width="1024"
+          height="1024"
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          src="/archidex-logo.svg"
+          alt="Archidex"
+          class="h-6 w-auto"
+          width="527"
+          height="74"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
       <p class="text-ink-muted">{strings.tagline}</p>
     </div>
 

@@ -18,10 +18,35 @@ const altLabel =
   >
     <a
       href={locale === "uk" ? "/" : "/en/"}
-      class="font-display text-ink text-xl font-semibold tracking-tight"
+      class="flex items-center gap-3"
       aria-label={strings.header.brand}
     >
-      {strings.header.brand}
+      <img
+        src="/archidex_icon.png"
+        alt=""
+        aria-hidden="true"
+        class="h-9 w-9 rounded-xl object-cover"
+        width="1024"
+        height="1024"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="flex flex-col items-start gap-0.5">
+        <img
+          src="/archidex-logo.svg"
+          alt={strings.header.brand}
+          class="h-5 w-auto sm:h-6"
+          width="527"
+          height="74"
+          loading="eager"
+          decoding="async"
+        />
+        <span
+          class="text-ink-soft text-[0.65rem] leading-none font-medium sm:text-[0.7rem]"
+        >
+          {strings.header.tagline}
+        </span>
+      </span>
     </a>
 
     <nav

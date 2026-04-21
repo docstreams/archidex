@@ -8,6 +8,7 @@ export const uk = {
   },
   header: {
     brand: "Archidex",
+    tagline: "знання у ваших документах",
     apply: "Подати заявку",
     switchToUk: "UA",
     switchToEn: "EN",
