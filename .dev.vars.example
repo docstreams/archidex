@@ -5,3 +5,7 @@
 
 NOTION_TOKEN=""
 NOTION_BETA_DB_ID=""
+
+# Slack incoming webhook for new beta application notifications.
+# Leave empty to disable Slack notifications (the request still succeeds).
+SLACK_WEBHOOK_URL=""

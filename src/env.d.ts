@@ -5,6 +5,7 @@ declare namespace Cloudflare {
   interface Env {
     NOTION_TOKEN: string;
     NOTION_BETA_DB_ID: string;
+    SLACK_WEBHOOK_URL: string;
   }
 }
 

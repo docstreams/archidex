@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 import { z } from "zod";
 import { createNotionClient, createBetaApplication } from "../../lib/notion";
+import { slack } from "../../lib/slack";
 
 export const prerender = false;
 
@@ -92,8 +93,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    const client = createNotionClient(env.NOTION_TOKEN);
-    await createBetaApplication(client, env.NOTION_BETA_DB_ID, {
+    const application = {
       name: data.name,
       email: data.email,
       company: data.company,
@@ -102,7 +102,12 @@ export const POST: APIRoute = async ({ request }) => {
       useCase: data.useCase || undefined,
       locale: data.locale,
       source: request.headers.get("referer") ?? undefined,
-    });
+    };
+
+    const client = createNotionClient(env.NOTION_TOKEN);
+    await createBetaApplication(client, env.NOTION_BETA_DB_ID, application);
+
+    slack.notify.betaApply(application);
 
     return jsonResponse(200, {
       success: true,
