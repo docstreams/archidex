@@ -104,11 +104,10 @@ export const POST: APIRoute = async ({ request }) => {
       locale: data.locale,
       source: request.headers.get("referer") ?? undefined,
     };
+    await slack.notify.betaApply(application);
 
     const client = createNotionClient(env.NOTION_TOKEN);
     await createBetaApplication(client, env.NOTION_BETA_DB_ID, application);
-
-    slack.notify.betaApply(application);
 
     const posthog = getPostHogServer();
     const sessionId = request.headers.get("X-PostHog-Session-Id") || undefined;

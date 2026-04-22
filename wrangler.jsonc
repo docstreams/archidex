@@ -19,6 +19,6 @@
   },
   "preview_urls": true,
   "secrets": {
-    "required": ["NOTION_TOKEN", "NOTION_BETA_DB_ID"],
+    "required": ["NOTION_TOKEN", "NOTION_BETA_DB_ID", "SLACK_WEBHOOK_URL"],
   },
 }
