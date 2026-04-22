@@ -306,7 +306,7 @@ export const en: TranslationSchema = {
       },
       {
         q: "How much does Archidex cost?",
-        a: "The beta is free for participants. Use the calculator above to estimate cost after general availability — we finalise pricing per customer.",
+        a: "Use the calculator above to estimate pricing — we finalise the exact cost based on your volume.",
       },
     ],
   },
