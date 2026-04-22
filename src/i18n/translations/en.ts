@@ -4,7 +4,7 @@ export const en: TranslationSchema = {
   meta: {
     siteTitle: "Archidex — knowledge in your documents",
     defaultDescription:
-      "Enterprise AI search for Ukrainian teams. Upload your documents, ask questions — get answers with a citation and link to the source.",
+      "Enterprise AI search across internal documents. Upload your documents, ask questions — get answers with a citation and link to the source.",
     ogImageAlt:
       "Archidex — Dex the mascot helping to find an answer inside corporate documents",
   },
