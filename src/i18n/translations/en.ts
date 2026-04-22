@@ -282,7 +282,7 @@ export const en: TranslationSchema = {
     items: [
       {
         q: "Who can access the documents?",
-        a: "Only users inside your organisation according to their roles and permissions. No one outside your tenant — Allmatics included — reads documents unless you explicitly request it.",
+        a: "Only users inside your organisation according to their roles and permissions. No one outside your tenant — including our team — reads documents unless you explicitly request it.",
       },
       {
         q: "Do you support SSO?",
