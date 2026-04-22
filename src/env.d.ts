@@ -1,6 +1,8 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference path="../worker-configuration.d.ts" />
 
+import type { PostHog } from "posthog-js";
+
 declare namespace Cloudflare {
   interface Env {
     NOTION_TOKEN: string;
@@ -12,3 +14,11 @@ declare namespace Cloudflare {
 declare module "cloudflare:workers" {
   export const env: Cloudflare.Env;
 }
+
+declare global {
+  interface Window {
+    posthog?: PostHog;
+  }
+}
+
+export {};

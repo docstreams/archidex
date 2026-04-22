@@ -3,6 +3,7 @@ import { env } from "cloudflare:workers";
 import { z } from "zod";
 import { createNotionClient, createBetaApplication } from "../../lib/notion";
 import { slack } from "../../lib/slack";
+import { getPostHogServer } from "../../lib/posthog-server";
 
 export const prerender = false;
 
@@ -108,6 +109,23 @@ export const POST: APIRoute = async ({ request }) => {
     await createBetaApplication(client, env.NOTION_BETA_DB_ID, application);
 
     slack.notify.betaApply(application);
+
+    const posthog = getPostHogServer();
+    const sessionId = request.headers.get("X-PostHog-Session-Id") || undefined;
+    const distinctId =
+      request.headers.get("X-PostHog-Distinct-Id") || data.email;
+    posthog.capture({
+      distinctId,
+      event: "beta_application_received",
+      properties: {
+        $session_id: sessionId,
+        company: data.company,
+        size: data.size,
+        locale: data.locale,
+        has_role: !!data.role,
+        has_use_case: !!data.useCase,
+      },
+    });
 
     return jsonResponse(200, {
       success: true,

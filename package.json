@@ -21,6 +21,8 @@
     "@fontsource-variable/lora": "^5.2.8",
     "@tailwindcss/vite": "^4.2.3",
     "astro": "^6.1.8",
+    "posthog-js": "^1.369.5",
+    "posthog-node": "^5.29.4",
     "tailwindcss": "^4.2.3",
     "wrangler": "^4.84.0",
     "zod": "^4.3.6"

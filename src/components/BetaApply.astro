@@ -392,10 +392,26 @@ const fieldErrorClass = "hidden text-xs text-red-700";
       button.textContent = sendingLabel;
       form.setAttribute("aria-busy", "true");
 
+      const sessionId = window.posthog?.get_session_id?.() ?? undefined;
+      const distinctId = window.posthog?.get_distinct_id?.() ?? undefined;
+
+      window.posthog?.capture("beta_application_submitted", {
+        company_size: payload.size,
+        locale: payload.locale,
+        has_role: !!payload.role,
+        has_use_case: !!payload.useCase,
+      });
+
       try {
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+        if (sessionId) headers["X-PostHog-Session-Id"] = sessionId;
+        if (distinctId) headers["X-PostHog-Distinct-Id"] = distinctId;
+
         const response = await fetch("/api/beta-apply", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify(payload),
         });
 
@@ -418,11 +434,25 @@ const fieldErrorClass = "hidden text-xs text-red-700";
           } else {
             errorEl?.classList.remove("hidden");
           }
+          window.posthog?.capture("beta_application_failed", {
+            reason: data?.fieldErrors ? "validation" : "server_error",
+            status: response.status,
+          });
           button.disabled = false;
           button.textContent = idleLabel;
           form.removeAttribute("aria-busy");
           return;
         }
+
+        window.posthog?.identify(payload.email, {
+          email: payload.email,
+          name: payload.name,
+          company: payload.company,
+          company_size: payload.size,
+        });
+        window.posthog?.capture("beta_application_succeeded", {
+          locale: payload.locale,
+        });
 
         introEl?.classList.add("hidden");
         successEl?.classList.remove("hidden");
@@ -430,6 +460,9 @@ const fieldErrorClass = "hidden text-xs text-red-700";
         mascotSuccess?.classList.remove("hidden");
       } catch {
         errorEl?.classList.remove("hidden");
+        window.posthog?.capture("beta_application_failed", {
+          reason: "network_error",
+        });
         button.disabled = false;
         button.textContent = idleLabel;
         form.removeAttribute("aria-busy");
