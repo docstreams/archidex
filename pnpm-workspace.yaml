@@ -6,6 +6,9 @@ catalogs:
   eslint:
     eslint: ^10.2.1
     eslint-plugin-astro: ^1.7.0
+    "@eslint/js": ^10.0.1
+    "@typescript-eslint/parser": ^8.59.0
+    typescript-eslint: ^8.59.0
   prettier:
     prettier: 3.8.3
     prettier-plugin-astro: 0.14.1
