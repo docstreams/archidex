@@ -1,0 +1,41 @@
+{
+  "name": "web",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "wrangler types && astro dev",
+    "build": "wrangler types && astro build",
+    "preview": "wrangler types && astro preview",
+    "astro": "astro",
+    "format": "pnpm exec prettier --write .",
+    "lint": "pnpm exec eslint .",
+    "generate-types": "wrangler types"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.1.10",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/lora": "^5.2.8",
+    "@tailwindcss/vite": "^4.2.3",
+    "astro": "^6.1.8",
+    "posthog-js": "^1.369.5",
+    "posthog-node": "^5.29.4",
+    "tailwindcss": "catalog:tailwindcss",
+    "wrangler": "^4.84.0",
+    "zod": "catalog:zod"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.59.0",
+    "eslint": "catalog:eslint",
+    "eslint-plugin-astro": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "prettier-plugin-astro": "catalog:prettier",
+    "prettier-plugin-tailwindcss": "catalog:prettier"
+  },
+  "overrides": {
+    "vite": "^7"
+  }
+}
