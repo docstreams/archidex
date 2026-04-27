@@ -7,17 +7,21 @@
   },
   "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier --write \"*.{ts,js,md,json}\""
   },
   "devDependencies": {
+    "@archidex/prettier-config": "workspace:*",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@commitlint/format": "^20.5.0",
-    "@typescript-eslint/parser": "^8.59.0",
-    "eslint": "^10.2.1",
+    "@typescript-eslint/parser": "catalog:eslint",
+    "eslint": "catalog:eslint",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
-    "prettier": "3.8.3",
+    "prettier": "catalog:prettier",
+    "prettier-plugin-astro": "catalog:prettier",
+    "prettier-plugin-tailwindcss": "catalog:prettier",
     "turbo": "^2.9.6"
   },
   "overrides": {

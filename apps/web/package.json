@@ -28,12 +28,11 @@
     "zod": "catalog:zod"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.59.0",
+    "@archidex/prettier-config": "workspace:*",
+    "@typescript-eslint/parser": "catalog:eslint",
     "eslint": "catalog:eslint",
     "eslint-plugin-astro": "catalog:eslint",
-    "prettier": "catalog:prettier",
-    "prettier-plugin-astro": "catalog:prettier",
-    "prettier-plugin-tailwindcss": "catalog:prettier"
+    "typescript": "catalog:typescript"
   },
   "overrides": {
     "vite": "^7"

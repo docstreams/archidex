@@ -1,0 +1,23 @@
+{
+  "name": "@archidex/prettier-config",
+  "version": "1.0.0",
+  "description": "A Prettier configuration for Archidex projects",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "author": "Maksym Ryndia <mryndia@allmatics.com>",
+  "license": "UNLICENSED",
+  "main": "./prettier.config.js",
+  "exports": {
+    ".": "./prettier.config.js",
+    "./base": "./prettier.config.js",
+    "./astro": "./prettier.config.astro.js"
+  },
+  "devDependencies": {
+    "prettier": "catalog:prettier",
+    "prettier-plugin-astro": "catalog:prettier",
+    "prettier-plugin-tailwindcss": "catalog:prettier"
+  }
+}
