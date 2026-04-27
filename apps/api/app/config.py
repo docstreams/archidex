@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,21 @@ class Settings(BaseSettings):
 
     # Storage
     upload_dir: str = str(BASE_DIR / "data" / "uploads")
-    sqlite_path: str = str(BASE_DIR / "data" / "registry.db")
+
+    # Database
+    postgres_user: str = "archidex_user"
+    postgres_password: str = "archidex_password"
+    postgres_host: str = "localhost"
+    postgres_port: int = 5432
+    postgres_db: str = "archidex"
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def database_url(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}"
+            f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        )
 
     # RAG parameters
     max_chat_history: int = 10
