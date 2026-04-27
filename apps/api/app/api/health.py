@@ -1,6 +1,8 @@
 from fastapi import APIRouter
+from sqlalchemy import text
 
 from app.config import settings
+from app.db import session_scope
 from app.models.schemas import HealthResponse
 
 router = APIRouter(tags=["health"])
@@ -11,7 +13,6 @@ async def health_check() -> HealthResponse:
     qdrant_status = "unavailable"
     db_status = "unavailable"
 
-    # Check Qdrant
     try:
         from qdrant_client import QdrantClient
 
@@ -23,12 +24,9 @@ async def health_check() -> HealthResponse:
     except Exception:
         pass
 
-    # Check SQLite
     try:
-        import aiosqlite
-
-        async with aiosqlite.connect(settings.sqlite_path) as db:
-            await db.execute("SELECT 1")
+        async with session_scope() as db:
+            await db.execute(text("SELECT 1"))
         db_status = "ok"
     except Exception:
         pass

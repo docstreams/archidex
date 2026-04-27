@@ -4,21 +4,22 @@ import asyncio
 import logging
 import os
 import uuid
-from datetime import datetime, timezone
 from pathlib import Path
 
-import aiosqlite
-from fastapi import APIRouter, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from fastapi.responses import FileResponse
+from sqlalchemy import and_, delete, func, select, update
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
-from app.database import get_db
+from app.db import get_session, session_scope
+from app.db.models import Document
 from app.models.schemas import (
     DocumentListItem,
     DocumentStatusResponse,
     DocumentUploadResponse,
 )
-from app.services import converter, chunker, embeddings, vector_store
+from app.services import chunker, converter, embeddings, vector_store
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +60,6 @@ async def _process_document_inner(
     old_document_id: str | None,
 ) -> None:
     """Actual processing logic, runs under the concurrency semaphore."""
-    db: aiosqlite.Connection | None = None
     try:
         # 1. Convert document to markdown
         markdown = await converter.to_markdown(file_path)
@@ -88,12 +88,14 @@ async def _process_document_inner(
         await vector_store.upsert_chunks(chunk_dicts, vectors)
 
         # 6. Update database status → ready
-        db = await get_db()
-        await db.execute(
-            "UPDATE documents SET status = 'ready', chunk_count = ? WHERE document_id = ?",
-            (len(chunks), document_id),
-        )
-        await db.commit()
+        async with session_scope() as db:
+            await db.execute(
+                update(Document)
+                .where(Document.document_id == document_id)
+                .values(status="ready", chunk_count=len(chunks))
+            )
+            await db.commit()
+
         logger.info(
             "Document '%s' v%d processed successfully (%d chunks)",
             document_name,
@@ -104,21 +106,22 @@ async def _process_document_inner(
     except Exception as exc:
         logger.exception("Failed to process document '%s' v%d", document_name, version)
         try:
-            db = db or await get_db()
-            await db.execute(
-                "UPDATE documents SET status = 'failed', error_message = ? WHERE document_id = ?",
-                (str(exc)[:500], document_id),
-            )
-            await db.commit()
+            async with session_scope() as db:
+                await db.execute(
+                    update(Document)
+                    .where(Document.document_id == document_id)
+                    .values(status="failed", error_message=str(exc)[:500])
+                )
+                await db.commit()
         except Exception:
             logger.exception("Failed to update document status to 'failed'")
-    finally:
-        if db:
-            await db.close()
 
 
 @router.post("/upload", response_model=DocumentUploadResponse)
-async def upload_document(file: UploadFile) -> DocumentUploadResponse:
+async def upload_document(
+    file: UploadFile,
+    db: AsyncSession = Depends(get_session),
+) -> DocumentUploadResponse:
     """Upload a PDF or DOCX document for processing."""
     if not file.filename:
         raise HTTPException(status_code=400, detail="No filename provided")
@@ -132,48 +135,49 @@ async def upload_document(file: UploadFile) -> DocumentUploadResponse:
 
     document_name = file.filename
     document_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc).isoformat()
 
-    db = await get_db()
-    try:
-        # Determine version (check for existing uploads with same name)
-        cursor = await db.execute(
-            "SELECT MAX(version) as max_ver, document_id FROM documents WHERE document_name = ?",
-            (document_name,),
-        )
-        row = await cursor.fetchone()
-
-        old_document_id: str | None = None
-        if row and row["max_ver"] is not None:
-            version = row["max_ver"] + 1
-            old_document_id = row["document_id"]
-        else:
-            version = 1
-
-        # Save uploaded file to disk (with size check)
-        file_path = os.path.join(settings.upload_dir, f"{document_id}{ext}")
-        os.makedirs(settings.upload_dir, exist_ok=True)
-
-        max_bytes = settings.upload_max_size_mb * 1024 * 1024
-        content = await file.read(max_bytes + 1)
-        if len(content) > max_bytes:
-            raise HTTPException(
-                status_code=413,
-                detail=f"Файл перевищує ліміт {settings.upload_max_size_mb} МБ",
-            )
-
-        with open(file_path, "wb") as f:
-            f.write(content)
-
-        # Insert document record
+    # Determine version (check for existing uploads with same name)
+    latest = (
         await db.execute(
-            """INSERT INTO documents (document_id, document_name, version, status, created_at)
-               VALUES (?, ?, ?, 'processing', ?)""",
-            (document_id, document_name, version, now),
+            select(Document.version, Document.document_id)
+            .where(Document.document_name == document_name)
+            .order_by(Document.version.desc())
+            .limit(1)
         )
-        await db.commit()
-    finally:
-        await db.close()
+    ).first()
+
+    if latest is not None:
+        version = latest.version + 1
+        old_document_id: str | None = latest.document_id
+    else:
+        version = 1
+        old_document_id = None
+
+    # Save uploaded file to disk (with size check)
+    file_path = os.path.join(settings.upload_dir, f"{document_id}{ext}")
+    os.makedirs(settings.upload_dir, exist_ok=True)
+
+    max_bytes = settings.upload_max_size_mb * 1024 * 1024
+    content = await file.read(max_bytes + 1)
+    if len(content) > max_bytes:
+        raise HTTPException(
+            status_code=413,
+            detail=f"Файл перевищує ліміт {settings.upload_max_size_mb} МБ",
+        )
+
+    with open(file_path, "wb") as f:
+        f.write(content)
+
+    # Insert document record
+    db.add(
+        Document(
+            document_id=document_id,
+            document_name=document_name,
+            version=version,
+            status="processing",
+        )
+    )
+    await db.commit()
 
     # Launch background processing
     asyncio.create_task(
@@ -191,127 +195,122 @@ async def upload_document(file: UploadFile) -> DocumentUploadResponse:
 
 
 @router.get("", response_model=list[DocumentListItem])
-async def list_documents() -> list[DocumentListItem]:
+async def list_documents(
+    db: AsyncSession = Depends(get_session),
+) -> list[DocumentListItem]:
     """List all uploaded documents (latest version of each)."""
-    db = await get_db()
-    try:
-        cursor = await db.execute(
-            """SELECT d.document_id, d.document_name, d.version, d.status,
-                      d.chunk_count, d.created_at
-               FROM documents d
-               INNER JOIN (
-                   SELECT document_name, MAX(version) as max_ver
-                   FROM documents
-                   GROUP BY document_name
-               ) latest ON d.document_name = latest.document_name
-                       AND d.version = latest.max_ver
-               ORDER BY d.created_at DESC"""
+    latest = (
+        select(
+            Document.document_name,
+            func.max(Document.version).label("max_ver"),
         )
-        rows = await cursor.fetchall()
-        return [
-            DocumentListItem(
-                document_id=row["document_id"],
-                document_name=row["document_name"],
-                version=row["version"],
-                status=row["status"],
-                chunk_count=row["chunk_count"],
-                created_at=row["created_at"],
-            )
-            for row in rows
-        ]
-    finally:
-        await db.close()
+        .group_by(Document.document_name)
+        .subquery()
+    )
+
+    stmt = (
+        select(Document)
+        .join(
+            latest,
+            and_(
+                Document.document_name == latest.c.document_name,
+                Document.version == latest.c.max_ver,
+            ),
+        )
+        .order_by(Document.created_at.desc())
+    )
+
+    rows = (await db.execute(stmt)).scalars().all()
+    return [
+        DocumentListItem(
+            document_id=d.document_id,
+            document_name=d.document_name,
+            version=d.version,
+            status=d.status,
+            chunk_count=d.chunk_count,
+            created_at=d.created_at,
+        )
+        for d in rows
+    ]
 
 
 @router.get("/{document_id}/status", response_model=DocumentStatusResponse)
-async def get_document_status(document_id: str) -> DocumentStatusResponse:
+async def get_document_status(
+    document_id: str,
+    db: AsyncSession = Depends(get_session),
+) -> DocumentStatusResponse:
     """Get the processing status of a specific document."""
-    db = await get_db()
-    try:
-        cursor = await db.execute(
-            "SELECT * FROM documents WHERE document_id = ?", (document_id,)
-        )
-        row = await cursor.fetchone()
+    doc = await db.get(Document, document_id)
+    if doc is None:
+        raise HTTPException(status_code=404, detail="Document not found")
 
-        if not row:
-            raise HTTPException(status_code=404, detail="Document not found")
-
-        return DocumentStatusResponse(
-            document_id=row["document_id"],
-            document_name=row["document_name"],
-            version=row["version"],
-            status=row["status"],
-            chunk_count=row["chunk_count"],
-            error_message=row["error_message"],
-            created_at=row["created_at"],
-        )
-    finally:
-        await db.close()
+    return DocumentStatusResponse(
+        document_id=doc.document_id,
+        document_name=doc.document_name,
+        version=doc.version,
+        status=doc.status,
+        chunk_count=doc.chunk_count,
+        error_message=doc.error_message,
+        created_at=doc.created_at,
+    )
 
 
 @router.delete("/{document_id}")
-async def delete_document(document_id: str) -> dict[str, str]:
+async def delete_document(
+    document_id: str,
+    db: AsyncSession = Depends(get_session),
+) -> dict[str, str]:
     """Delete a document and its vectors from Qdrant."""
-    db = await get_db()
-    try:
-        cursor = await db.execute(
-            "SELECT * FROM documents WHERE document_id = ?", (document_id,)
-        )
-        row = await cursor.fetchone()
+    doc = await db.get(Document, document_id)
+    if doc is None:
+        raise HTTPException(status_code=404, detail="Document not found")
 
-        if not row:
-            raise HTTPException(status_code=404, detail="Document not found")
+    # Delete vectors from Qdrant
+    await vector_store.delete_by_document(document_id)
 
-        # Delete vectors from Qdrant
-        await vector_store.delete_by_document(document_id)
+    # Delete from database
+    await db.execute(delete(Document).where(Document.document_id == document_id))
+    await db.commit()
 
-        # Delete from database
-        await db.execute("DELETE FROM documents WHERE document_id = ?", (document_id,))
-        await db.commit()
+    # Remove uploaded file
+    upload_dir = settings.upload_dir
+    for ext in ALLOWED_EXTENSIONS:
+        path = os.path.join(upload_dir, f"{document_id}{ext}")
+        if os.path.exists(path):
+            os.remove(path)
+            break
 
-        # Remove uploaded file
-        upload_dir = settings.upload_dir
-        for ext in ALLOWED_EXTENSIONS:
-            path = os.path.join(upload_dir, f"{document_id}{ext}")
-            if os.path.exists(path):
-                os.remove(path)
-                break
-
-        return {"detail": "Document deleted"}
-    finally:
-        await db.close()
+    return {"detail": "Document deleted"}
 
 
 @router.get("/{document_id}/download")
-async def download_document(document_id: str) -> FileResponse:
+async def download_document(
+    document_id: str,
+    db: AsyncSession = Depends(get_session),
+) -> FileResponse:
     """Serve an uploaded document file for preview or download."""
-    db = await get_db()
-    try:
-        cursor = await db.execute(
-            "SELECT document_name FROM documents WHERE document_id = ?",
-            (document_id,),
+    document_name = (
+        await db.execute(
+            select(Document.document_name).where(Document.document_id == document_id)
         )
-        row = await cursor.fetchone()
+    ).scalar_one_or_none()
 
-        if not row:
-            raise HTTPException(status_code=404, detail="Document not found")
+    if document_name is None:
+        raise HTTPException(status_code=404, detail="Document not found")
 
-        document_name: str = row["document_name"]
-        ext = Path(document_name).suffix.lower()
-        file_path = os.path.join(settings.upload_dir, f"{document_id}{ext}")
+    ext = Path(document_name).suffix.lower()
+    file_path = os.path.join(settings.upload_dir, f"{document_id}{ext}")
 
-        if not os.path.exists(file_path):
-            raise HTTPException(status_code=404, detail="File not found on disk")
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found on disk")
 
-        # PDFs open inline in the browser; everything else downloads
-        media_type = "application/pdf" if ext == ".pdf" else "application/octet-stream"
-        disposition = "inline" if ext == ".pdf" else "attachment"
+    # PDFs open inline in the browser; everything else downloads
+    media_type = "application/pdf" if ext == ".pdf" else "application/octet-stream"
+    disposition = "inline" if ext == ".pdf" else "attachment"
 
-        return FileResponse(
-            path=file_path,
-            filename=document_name,
-            media_type=media_type,
-            content_disposition_type=disposition,
-        )
-    finally:
-        await db.close()
+    return FileResponse(
+        path=file_path,
+        filename=document_name,
+        media_type=media_type,
+        content_disposition_type=disposition,
+    )

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -20,7 +22,7 @@ class DocumentStatusResponse(BaseModel):
     status: str
     chunk_count: int = 0
     error_message: str | None = None
-    created_at: str
+    created_at: datetime
 
 
 class DocumentListItem(BaseModel):
@@ -29,7 +31,7 @@ class DocumentListItem(BaseModel):
     version: int
     status: str
     chunk_count: int = 0
-    created_at: str
+    created_at: datetime
 
 
 # ── Chat ───────────────────────────────────────────────────────────────────
@@ -74,8 +76,8 @@ class SessionResponse(BaseModel):
 class SessionListItem(BaseModel):
     session_id: str
     title: str
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class SessionHistoryResponse(BaseModel):

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -34,8 +35,16 @@ async def dispose_engine() -> None:
     _session_factory = None
 
 
-async def get_session() -> AsyncIterator[AsyncSession]:
+@asynccontextmanager
+async def session_scope() -> AsyncIterator[AsyncSession]:
+    """Async context manager for non-FastAPI callers (services, background tasks)."""
     if _session_factory is None:
         raise RuntimeError("DB engine not initialized")
     async with _session_factory() as session:
+        yield session
+
+
+async def get_session() -> AsyncIterator[AsyncSession]:
+    """FastAPI dependency yielding an AsyncSession."""
+    async with session_scope() as session:
         yield session

@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import logging
 
-import aiosqlite
 from fastapi import HTTPException
+from sqlalchemy import select, update
 
 from app.config import settings
-from app.database import get_db
+from app.db import session_scope
+from app.db.models import Usage
 
 logger = logging.getLogger(__name__)
 
@@ -24,68 +25,75 @@ class UsageLimitExceeded(HTTPException):
         )
 
 
+_ZERO_USAGE: dict[str, int] = {
+    "ocr_pages": 0,
+    "embedding_tokens": 0,
+    "llm_prompt_tokens": 0,
+    "llm_completion_tokens": 0,
+}
+
+
 async def get_usage() -> dict[str, int]:
     """Return current usage counters as a flat dict."""
-    db: aiosqlite.Connection = await get_db()
-    try:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            "SELECT ocr_pages, embedding_tokens, "
-            "llm_prompt_tokens, llm_completion_tokens FROM usage WHERE id = 1"
-        )
-        row = await cursor.fetchone()
+    async with session_scope() as db:
+        row = (await db.execute(select(Usage).where(Usage.id == 1))).scalar_one_or_none()
         if row is None:
-            return {
-                "ocr_pages": 0,
-                "embedding_tokens": 0,
-                "llm_prompt_tokens": 0,
-                "llm_completion_tokens": 0,
-            }
-        return dict(row)
-    finally:
-        await db.close()
+            return dict(_ZERO_USAGE)
+        return {
+            "ocr_pages": row.ocr_pages,
+            "embedding_tokens": row.embedding_tokens,
+            "llm_prompt_tokens": row.llm_prompt_tokens,
+            "llm_completion_tokens": row.llm_completion_tokens,
+        }
+
+
+async def _ensure_singleton(db) -> None:
+    """Insert the singleton usage row if it doesn't exist (idempotent)."""
+    exists = (
+        await db.execute(select(Usage.id).where(Usage.id == 1))
+    ).scalar_one_or_none()
+    if exists is None:
+        db.add(Usage(id=1))
+        await db.flush()
 
 
 async def increment_ocr_pages(count: int) -> None:
     """Atomically add *count* OCR pages to the running total."""
-    db: aiosqlite.Connection = await get_db()
-    try:
+    async with session_scope() as db:
+        await _ensure_singleton(db)
         await db.execute(
-            "UPDATE usage SET ocr_pages = ocr_pages + ?, "
-            "updated_at = datetime('now') WHERE id = 1",
-            (count,),
+            update(Usage)
+            .where(Usage.id == 1)
+            .values(ocr_pages=Usage.ocr_pages + count)
         )
         await db.commit()
         logger.info("Usage: +%d OCR pages", count)
-    finally:
-        await db.close()
 
 
 async def increment_embedding_tokens(count: int) -> None:
     """Atomically add *count* embedding tokens to the running total."""
-    db: aiosqlite.Connection = await get_db()
-    try:
+    async with session_scope() as db:
+        await _ensure_singleton(db)
         await db.execute(
-            "UPDATE usage SET embedding_tokens = embedding_tokens + ?, "
-            "updated_at = datetime('now') WHERE id = 1",
-            (count,),
+            update(Usage)
+            .where(Usage.id == 1)
+            .values(embedding_tokens=Usage.embedding_tokens + count)
         )
         await db.commit()
         logger.info("Usage: +%d embedding tokens", count)
-    finally:
-        await db.close()
 
 
 async def increment_llm_tokens(prompt_tokens: int, completion_tokens: int) -> None:
     """Atomically add LLM token counts to the running totals."""
-    db: aiosqlite.Connection = await get_db()
-    try:
+    async with session_scope() as db:
+        await _ensure_singleton(db)
         await db.execute(
-            "UPDATE usage SET "
-            "llm_prompt_tokens = llm_prompt_tokens + ?, "
-            "llm_completion_tokens = llm_completion_tokens + ?, "
-            "updated_at = datetime('now') WHERE id = 1",
-            (prompt_tokens, completion_tokens),
+            update(Usage)
+            .where(Usage.id == 1)
+            .values(
+                llm_prompt_tokens=Usage.llm_prompt_tokens + prompt_tokens,
+                llm_completion_tokens=Usage.llm_completion_tokens + completion_tokens,
+            )
         )
         await db.commit()
         logger.info(
@@ -93,8 +101,6 @@ async def increment_llm_tokens(prompt_tokens: int, completion_tokens: int) -> No
             prompt_tokens,
             completion_tokens,
         )
-    finally:
-        await db.close()
 
 
 # ── Limit checks ──────────────────────────────────────────────────────────
