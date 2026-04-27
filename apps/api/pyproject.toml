@@ -1,5 +1,5 @@
 [project]
-name = "wogbuddy-backend"
+name = "archidex-api"
 version = "0.1.0"
 description = "RAG Document Chat MVP"
 requires-python = ">=3.14"
