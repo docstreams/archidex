@@ -1,12 +1,13 @@
 packages:
   - apps/*
+  - "!apps/backend/"
   - packages/*
 
 catalogs:
   eslint:
-    eslint: ^10.2.1
+    eslint: ^9.39.1
     eslint-plugin-astro: ^1.7.0
-    "@eslint/js": ^10.0.1
+    "@eslint/js": ^9.39.1
     "@typescript-eslint/parser": ^8.59.0
     typescript-eslint: ^8.59.0
   prettier:
@@ -15,7 +16,7 @@ catalogs:
     prettier-plugin-tailwindcss: ^0.7.2
   tailwindcss:
     tailwindcss: ^4.2.3
-    "@tailwindcss/vite": ^0.1.0
+    "@tailwindcss/vite": ^4.2.3
   zod:
     zod: ^4.3.6
   typescript:

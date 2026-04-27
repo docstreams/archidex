@@ -8,7 +8,8 @@
     "./base": "./base.js",
     "./next-js": "./next.js",
     "./react-internal": "./react-internal.js",
-    "./astro": "./astro.js"
+    "./astro": "./astro.js",
+    "./react-vite": "./react-vite.js"
   },
   "devDependencies": {
     "@eslint/js": "catalog:eslint",
@@ -21,6 +22,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-turbo": "^2.9.6",
     "eslint-plugin-astro": "catalog:eslint",
+    "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^17.4.0",
     "typescript": "catalog:typescript",
     "typescript-eslint": "catalog:eslint"

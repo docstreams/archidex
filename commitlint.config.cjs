@@ -44,6 +44,7 @@ module.exports = {
         "blog", // Changes to the blog
         "projects", // Changes to the projects
         "web", // Changes to the web app
+        "app", // Changes to the dashboard app
         "api", // Changes to the API
         "backend", // Changes to the backend
         "db", // Changes to the database
