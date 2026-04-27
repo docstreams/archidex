@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@archidex/prettier-config": "workspace:*",
+    "@archidex/lint-staged-config": "workspace:*",
     "@typescript-eslint/parser": "catalog:eslint",
     "eslint": "catalog:eslint",
     "eslint-plugin-astro": "catalog:eslint",

@@ -1,0 +1,12 @@
+{
+  "name": "@archidex/lint-staged-config",
+  "description": "A lint-staged configuration package",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "author": "Maksym Ryndia <mryndia@allmatics.com>",
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./lint-staged.config.base.js"
+  }
+}
