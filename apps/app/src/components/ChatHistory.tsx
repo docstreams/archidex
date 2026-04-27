@@ -22,7 +22,7 @@ function truncateTitle(title: string, max = TITLE_MAX): string {
 }
 
 function timeAgo(dateStr: string): string {
-  const date = new Date(dateStr + "Z"); // UTC from SQLite
+  const date = new Date(dateStr);
   const now = new Date();
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
