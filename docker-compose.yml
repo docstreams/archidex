@@ -1,0 +1,29 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__GRPC_PORT=6334
+  db:
+    image: postgres:18-alpine
+    environment:
+      - POSTGRES_USER=archidex_user
+      - POSTGRES_PASSWORD=archidex_password
+      - POSTGRES_DB=archidex
+      - PGDATA=/var/lib/postgresql/data/mount
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.db.postgres:/var/lib/postgresql/data/mount
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U archidex_user -d archidex" ]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  qdrant_data:
